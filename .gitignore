@@ -18,7 +18,4 @@ npm-debug.log*
 # typescript
 *.tsbuildinfo
 
-# packaged templates (regenerate with templates/*/pack-template.sh)
-elite-steppers-landing-template.zip
-legal-terms-page-template.zip
-marketing-about-page-template.zip
+# template zips at repo root are tracked; rebuild with: bash templates/<name>/pack-template.sh
