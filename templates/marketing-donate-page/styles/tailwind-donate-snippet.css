@@ -1,0 +1,25 @@
+/**
+ * Optional: merge into your global stylesheet if the host app has no `gold`
+ * token or gold shadow utilities.
+ *
+ * With Tailwind v4 + @import "tailwindcss", you can @import this file after
+ * tailwind in globals.css, or paste the :root / @theme / @layer blocks.
+ */
+
+:root {
+  --gold: #d4af37;
+}
+
+@theme inline {
+  --color-gold: var(--gold);
+}
+
+@layer components {
+  .shadow-gold-sm {
+    box-shadow: 0 2px 12px color-mix(in srgb, var(--gold) 28%, transparent);
+  }
+
+  .shadow-gold-icon {
+    box-shadow: 0 2px 10px -3px color-mix(in srgb, var(--gold) 55%, transparent);
+  }
+}

@@ -1,0 +1,9 @@
+/**
+ * If your app does not already define `gold` for Tailwind, merge this
+ * (or the relevant lines) into your global CSS after `@import "tailwindcss";`
+ * and keep your own `--background` as needed. This matches elite-steppers-platform.
+ */
+@theme inline {
+  --color-gold: #d4af37;
+  --color-gold-muted: #b4922a;
+}

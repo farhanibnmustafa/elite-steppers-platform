@@ -1,0 +1,149 @@
+/**
+ * Merge this into your global stylesheet (after `@import "tailwindcss";`)
+ * or import it from `globals.css` so Tailwind sees the @theme block.
+ *
+ * Requires: body (or html) to expose `--font-ui` from next/font, e.g. Poppins with variable: "--font-ui".
+ */
+
+:root {
+  --background: #0a0a0c;
+  --foreground: #fafafa;
+  --gold: #d4af37;
+  --gold-muted: #b4922a;
+  --brand-navy: #1a1b27;
+  --surface-void: #0a0a0c;
+  /* Nominations / form — keep in sync with src/nominationFormStyles in this template */
+  --nomination-card: #171723;
+  --nomination-field: #1e1e2a;
+  --nomination-border: #7f7f86;
+  --nomination-control: #343747;
+}
+
+@theme inline {
+  --font-sans: var(--font-ui), "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-gold: var(--gold);
+  --color-gold-muted: var(--gold-muted);
+  --color-brand-navy: var(--brand-navy);
+  --color-surface-void: var(--surface-void);
+  --color-nomination-card: var(--nomination-card);
+  --color-nomination-field: var(--nomination-field);
+  --color-nomination-border: var(--nomination-border);
+  --color-nomination-control: var(--nomination-control);
+}
+
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-size: 90%;
+}
+
+html,
+body {
+  min-height: 100dvh;
+  max-width: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-ui), "Poppins", system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+  overflow-x: clip;
+}
+
+.font-brand {
+  font-family: var(--font-ui), "Poppins", system-ui, sans-serif;
+}
+
+.font-merch-display {
+  font-family: var(--font-ui), "Poppins", system-ui, sans-serif;
+}
+
+/* Nomination form: square, thin light border, muted cool-grey fill */
+@layer components {
+  .nomination-form-checkbox {
+    position: relative;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    border-radius: 0;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background-color: var(--nomination-control);
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .nomination-form-checkbox:hover {
+    border-color: rgba(255, 255, 255, 0.72);
+  }
+
+  .nomination-form-checkbox:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--gold) 70%, transparent);
+    outline-offset: 2px;
+  }
+
+  .nomination-form-checkbox:checked {
+    background-color: var(--gold);
+    border-color: var(--gold);
+  }
+
+  .nomination-form-checkbox:checked::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.2rem;
+    height: 0.5rem;
+    border: solid var(--background);
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -58%) rotate(45deg);
+  }
+}
+
+@layer utilities {
+  .text-faux-extrabold {
+    text-shadow:
+      0.5px 0 0 currentColor,
+      -0.5px 0 0 currentColor,
+      0 0.5px 0 currentColor,
+      0 -0.5px 0 currentColor;
+  }
+
+  .text-shadow-gold-accent {
+    text-shadow:
+      0.55px 0 0 color-mix(in srgb, var(--gold) 99%, transparent),
+      -0.55px 0 0 color-mix(in srgb, var(--gold) 99%, transparent),
+      0 0.45px 0 color-mix(in srgb, var(--gold) 50%, transparent),
+      0 2px 7px rgba(0, 0, 0, 0.48),
+      0 0 1px rgba(0, 0, 0, 0.6);
+  }
+
+  .text-shadow-gold-glow {
+    text-shadow: 0 0 20px color-mix(in srgb, var(--gold) 25%, transparent);
+  }
+
+  .shadow-gold-sm {
+    box-shadow: 0 2px 12px color-mix(in srgb, var(--gold) 28%, transparent);
+  }
+
+  .shadow-gold-md {
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--gold) 35%, transparent);
+  }
+
+  .shadow-gold-cta {
+    box-shadow: 0 4px 16px -8px color-mix(in srgb, var(--gold) 50%, transparent);
+  }
+
+  .shadow-gold-icon {
+    box-shadow: 0 2px 10px -3px color-mix(in srgb, var(--gold) 55%, transparent);
+  }
+}

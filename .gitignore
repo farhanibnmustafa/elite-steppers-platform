@@ -1,0 +1,24 @@
+# dependencies
+node_modules
+.pnp
+.pnp.js
+
+# next
+.next
+out
+
+# env
+.env
+.env*.local
+
+# debug / os
+npm-debug.log*
+.DS_Store
+
+# typescript
+*.tsbuildinfo
+
+# packaged templates (regenerate with templates/*/pack-template.sh)
+elite-steppers-landing-template.zip
+legal-terms-page-template.zip
+marketing-about-page-template.zip

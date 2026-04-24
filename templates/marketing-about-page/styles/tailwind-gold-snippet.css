@@ -1,0 +1,23 @@
+/**
+ * Merge into your global CSS after `@import "tailwindcss";` if your app
+ * does not already define these tokens and the `shadow-gold-sm` utility.
+ * The main app sets the same values in `globals.css` (`:root` + `@theme` + `@layer components`).
+ */
+:root {
+  --gold: #d4af37;
+  --background: #0a0a0c;
+  --nomination-card: #171723;
+}
+
+@theme inline {
+  --color-gold: var(--gold);
+  --color-gold-muted: #b4922a;
+  --color-background: var(--background);
+  --color-nomination-card: var(--nomination-card);
+}
+
+@layer components {
+  .shadow-gold-sm {
+    box-shadow: 0 2px 12px color-mix(in srgb, var(--gold) 28%, transparent);
+  }
+}
