@@ -11,6 +11,10 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+### Reusable page templates
+
+The `templates/` directory holds **five** copy-out packages (run each folder’s `pack-template.sh` from the repo root to build a zip). They cover the monorepo’s **seven** fully built marketing routes as follows: **`elite-steppers-landing`** bundles **home**, **nominations**, and **nominations/success** in one pack (shared header, layout, and nominate → success flow); the other four templates are **one route each** — `hall-of-fame-page`, `marketing-about-page`, `marketing-donate-page`, and `legal-terms-page`. See each template’s `README.md` for integration steps; `templates/elite-steppers-landing/README.md` also explains why those three routes share a single template.
+
 ### Tech stack (current)
 
 | Layer | Packages |

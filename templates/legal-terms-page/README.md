@@ -8,7 +8,7 @@ Portable copy of the **Terms & Conditions** implementation from this repo: confi
 |------|--------|
 | `src/termsConfig.ts` | **Edit first:** org name, email, `lastUpdated`, `metadata`, service/nominations phrasing, `primaryProgram` (e.g. `"the Hall of Fame"` vs `"our programs"`) |
 | `src/termsContent.ts` | Full clause set; uses `termsConfig` for org-specific lines; still contains `[Insert state/country]` in governing law (complete with counsel) |
-| `src/TermsPageView.tsx` | UI only — hero, “On this page” nav, sections |
+| `src/TermsPageView.tsx` | Table of contents, article sections, scroll anchors (no `next/image` hero) |
 | `src/index.ts` | Barrel exports |
 | `styles/tailwind-terms-snippet.css` | Optional `--color-gold` if the target app has no `text-gold` / `border-gold` |
 | `examples/next-app-terms-page.tsx` | Example `app/(marketing)/terms/page.tsx` wiring + `metadata` from config |
@@ -27,26 +27,65 @@ Portable copy of the **Terms & Conditions** implementation from this repo: confi
 
 `TermsPageView` uses utilities such as `text-gold`, `border-gold/30`, `text-white/85`, `bg-white/[0.03]`. The main **elite-steppers-platform** app defines `gold` in [globals.css](/src/app/globals.css) (`@theme inline`). If your app does not define `gold`, add the snippet or equivalent tokens.
 
-## How to use in another repository
+## Images
 
-1. **Get the files**
-   - From a zip: run `bash templates/legal-terms-page/pack-template.sh` in **elite-steppers-platform**, then unzip; or
-   - Copy the whole `templates/legal-terms-page` directory.
+This template is **text-only**; there is no `public/images/` folder and no `next/image` assets. Nothing to copy for artwork.
 
-2. **Copy `src/`** into the target app, e.g. `src/components/legal-terms/` (or any folder you prefer).
+## Add this template to another project
 
-3. **TypeScript path:** ensure `@/*` → `./src/*` in `tsconfig.json`, then you can re-export or import:
-   - `import { TermsPageView, termsPageConfig } from "@/components/legal-terms";`
+Work through these steps in the **target** app.
 
-4. **Customize** `termsConfig.ts` (names, email, dates, `primaryProgram` / `serviceInformationFocus` / `servicesScope` as needed for your product).
+### 1. Get the template files
 
-5. **Add a route** e.g. `app/(marketing)/terms/page.tsx`:
-   - See `examples/next-app-terms-page.tsx`.
-   - Wrap `<TermsPageView />` in your layout `main` (e.g. `ContentMain` in this monorepo) so padding matches other legal/marketing pages.
+| Source | What to do |
+|--------|------------|
+| **Zip** | In **elite-steppers-platform** run `bash templates/legal-terms-page/pack-template.sh`, then unzip `legal-terms-page-template.zip`. Use the `templates/legal-terms-page` folder as the template root. |
+| **Copy** | Copy `templates/legal-terms-page` from a checkout of this repo. |
 
-6. **Metadata** — use `termsPageConfig.metadata.title` and `termsPageConfig.metadata.description` in `export const metadata` (see example).
+### 2. Copy into your app
 
-7. **Footer / nav** — link to `/terms` with your other legal links.
+| From template | Into your app (example) |
+|---------------|-------------------------|
+| `src/*` | e.g. `src/components/legal-terms/` (keep `index.ts`) |
+| `styles/tailwind-terms-snippet.css` | Merge after `@import "tailwindcss";` in `globals.css` if your app has no `text-gold` / `border-gold/30` (see [Requirements](#requirements-in-the-target-project)) |
+| `examples/next-app-terms-page.tsx` | **Reference** for your `app/.../terms/page.tsx` — update imports to `@/components/legal-terms` |
+
+There is **no** `public/images` folder; nothing to copy for assets.
+
+### 3. TypeScript path alias
+
+In **`tsconfig.json`**:
+
+```json
+"paths": { "@/*": ["./src/*"] }
+```
+
+Then:
+
+```ts
+import { TermsPageView, termsPageConfig } from "@/components/legal-terms";
+```
+
+### 4. Customize legal copy
+
+Edit **`src/termsConfig.ts`**: org name, contact email, `lastUpdated`, `metadata`, and service/nominations phrasing. Have counsel review **`termsContent.ts`** before production (governing law placeholder, liability, etc.).
+
+### 5. Add the route
+
+1. Create e.g. `app/(marketing)/terms/page.tsx`.
+2. Copy the pattern from `examples/next-app-terms-page.tsx` — **replace** any `import … from "../src"` with the imports from step 3.
+3. Wrap `<TermsPageView />` in the same `main` / `ContentMain` / layout padding you use for other long-form marketing pages.
+4. `export const metadata` using `termsPageConfig.metadata.title` and `termsPageConfig.metadata.description` (as in the example).
+
+### 6. Site navigation
+
+Add links to `/terms` from your footer and anywhere else you surface legal pages.
+
+### 7. Checklist
+
+- [ ] `text-gold` and related tokens work (merged snippet or existing theme).
+- [ ] `termsConfig` and `termsContent` reflect your org; attorney review done if required.
+- [ ] `npm run build` succeeds.
 
 ## Parity with elite-steppers-platform
 

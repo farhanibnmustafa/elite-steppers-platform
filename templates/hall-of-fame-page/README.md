@@ -22,6 +22,7 @@ Portable copy of the **Hall of Fame** experience from this repo: hero, “Induct
 | `styles/tailwind-hof-snippet.css` | Optional `--gold` theme + `text-shadow-gold-accent` / `shadow-gold-icon` utilities |
 | `examples/next-app-hall-of-fame-page.tsx` | Example `page.tsx` + `metadata` |
 | `pack-template.sh` | From repo root, zips this folder to `hall-of-fame-page-template.zip` |
+| `public/images/*.png` | Demo photos used by the page (merge into your app’s `public/images/`) |
 | `tsconfig.json` | Local TypeScript for editors (parent `tsconfig` may `exclude` `templates/**`) |
 
 ## Requirements in the target project
@@ -36,7 +37,7 @@ Components reference utilities such as `text-gold`, `bg-gold`, `bg-gold-muted`, 
 
 ## Images (`public/images/`)
 
-Copy at least these files from the main app (or replace paths in data/components):
+The template **ships with** a `public/images/` folder containing the same demo assets as the monorepo app. When you adopt it elsewhere, **merge** that folder into your Next app’s `public/` (so `/images/12.png` resolves) or point `imageSrc` / static paths in the data to your own files.
 
 - `12.png` — hero background  
 - `13.png`, `14.png`, `15.png` — featured block + some demo data  
@@ -45,25 +46,73 @@ Copy at least these files from the main app (or replace paths in data/components
 
 `next/image` uses root-relative paths (e.g. `/images/12.png`).
 
-## How to use in another repository
+## Add this template to another project
 
-1. **Get the files**  
-   - From a zip: run `bash templates/hall-of-fame-page/pack-template.sh` in **elite-steppers-platform** at the repo root, then unzip; or  
-   - Copy the whole `templates/hall-of-fame-page` directory.
+Follow these steps **in order** in the **target** repository (new `create-next-app` or an existing app).
 
-2. **Copy `src/`** into the target app, e.g. `src/components/hall-of-fame/`.
+### 1. Get the template files
 
-3. **TypeScript path:** ensure `"@/*": ["./src/*"]` in `tsconfig.json`, then:  
-   `import { HallOfFamePageView } from "@/components/hall-of-fame";`
+| Source | What to do |
+|--------|------------|
+| **Zip** | In **elite-steppers-platform** run `bash templates/hall-of-fame-page/pack-template.sh`, then unzip `hall-of-fame-page-template.zip` at the machine where you are building. Use the `templates/hall-of-fame-page` folder inside the zip as the template root. |
+| **Clone / copy** | Copy the whole `templates/hall-of-fame-page` directory from this repo. |
 
-4. **Add a route** e.g. `app/(marketing)/hall-of-fame/page.tsx` — see `examples/next-app-hall-of-fame-page.tsx`.  
-   Wrap the page in your existing marketing `layout` (header/shell) so width and background match the rest of the site.
+### 2. Copy files into your app
 
-5. **Metadata** — set `title` and `description` in the page file to match your product.
+| From template | Into your app (example) |
+|---------------|---------------------------|
+| Everything under `src/` | e.g. `src/components/hall-of-fame/` (keep `index.ts` for barrel exports) |
+| `public/images/*.png` | `public/images/` (merge; **same filenames** as documented above) |
+| (Optional) `styles/tailwind-hof-snippet.css` | See step 4 — merge if your app lacks `text-gold`, `bg-gold`, etc. |
+| `examples/next-app-hall-of-fame-page.tsx` | **Reference only** — paste into your `app/…/hall-of-fame/page.tsx` and fix imports (step 5). |
 
-6. **Footer** — `LandingNewsletterFooter` links to `/terms` and a copyright line; change `href` and strings for your org.
+### 3. TypeScript path alias
 
-7. **Data** — replace demo arrays in `hallOfFameInducteeData.ts` and `hallOfFameNotableByYearData.ts` when you wire a CMS; adjust `FEATURED` in `HallOfFameFeaturedInductees.tsx` for the large/small cards.
+In **`tsconfig.json`**, ensure:
+
+```json
+"paths": {
+  "@/*": ["./src/*"]
+}
+```
+
+Then you can use:
+
+`import { HallOfFamePageView } from "@/components/hall-of-fame";`
+
+(Adjust the folder name in both the path and the import if you did not use `hall-of-fame`.)
+
+### 4. Global CSS and theme tokens
+
+- Keep `@import "tailwindcss";` **first** in your main global CSS (e.g. `src/app/globals.css`).
+- If your app does **not** already define the same `gold` / `background` utilities as the main site, **merge** `styles/tailwind-hof-snippet.css` after Tailwind, or copy the relevant `@theme` / utility rules from the [monorepo `globals.css`](../../src/app/globals.css). Without this, text and gold accents on the page may look unstyled.
+- If you already have a full marketing theme, you may only need a subset of the snippet.
+
+### 5. Add the route
+
+1. Create e.g. `app/(marketing)/hall-of-fame/page.tsx` (or your URL structure).
+2. See `examples/next-app-hall-of-fame-page.tsx` — replace the example’s `import { HallOfFamePageView } from "../src"` with your barrel import, e.g. `from "@/components/hall-of-fame"`.
+3. Wrap the page the same way as your other marketing pages (e.g. inside a shared `layout` that already provides header and background) so width and `bg-` match the rest of the site.
+4. Set `export const metadata` (`title` / `description`).
+
+### 6. After integration
+
+- **Footer** — `LandingNewsletterFooter` links to `/terms` and a copyright line; change `href` and copy for your org.
+- **Data** — replace demo content in `hallOfFameInducteeData.ts` and `hallOfFameNotableByYearData.ts` when you add a CMS; edit `FEATURED` in `HallOfFameFeaturedInductees.tsx` as needed.
+
+### 7. Checklist
+
+- [ ] `public/images/` contains the nine PNGs listed in [Images](#images-publicimages) (or you updated all path strings in data/components).
+- [ ] `HallOfFamePageView` imports resolve (`index.ts` present, path alias correct).
+- [ ] Global CSS includes Tailwind and enough gold/background tokens for the UI.
+- [ ] `npm run dev` and `npm run build` succeed.
+
+### 8. Ship a zip (from this monorepo)
+
+```bash
+bash templates/hall-of-fame-page/pack-template.sh
+# → hall-of-fame-page-template.zip at the repository root
+```
 
 ## Responsiveness (what this template does)
 
@@ -71,10 +120,3 @@ Copy at least these files from the main app (or replace paths in data/components
 - Featured “large” card uses bottom-aligned, left-typed copy on viewports below `lg`, and the original right column alignment from `lg` up.  
 - The year selector row scrolls horizontally on the smallest phones when five years do not fit, with `shrink-0` on year buttons.  
 - Sections use `landingInnerMax` (safe areas + max width) and `min-w-0` on flex/grid children to avoid horizontal scroll in flex layouts.
-
-## Optional: one-off zip from this monorepo
-
-```bash
-bash templates/hall-of-fame-page/pack-template.sh
-# Creates hall-of-fame-page-template.zip at the repository root
-```

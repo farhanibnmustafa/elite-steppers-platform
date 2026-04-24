@@ -28,7 +28,17 @@ When you change the live `AboutPageView` or `aboutPageDefaultData` in the repo, 
 | `examples/next-app-about-page.tsx` | Greenfield route using example data |
 | `examples/next-app-about-page.elite-parity.tsx` | Production-style route using `aboutPageDefaultData` |
 | `pack-template.sh` | Zips this folder → `marketing-about-page-template.zip` (repo root, gitignored) |
+| `public/images/*.png` | Demo art for default + example data; merge into your app’s `public/images/` |
 | `tsconfig.json` | Local TS (root `tsconfig` may `exclude` `templates/**`) |
+
+## Images (`public/images/`)
+
+The template **includes** demo assets so routes work out of the box:
+
+- `about-hero-cinematic.png` — `aboutPageDefaultData` hero  
+- `1.png` — `aboutPageExampleData` (greenfield placeholder)  
+
+`next/image` uses paths like `/images/about-hero-cinematic.png`. Merge this folder into the target app’s `public/`, or change `heroImage.src` in your data.
 
 ## Requirements
 
@@ -45,12 +55,61 @@ When you change the live `AboutPageView` or `aboutPageDefaultData` in the repo, 
 - **CTAs:** `h-12` row with compact `text-xs` / `min-[500px]:text-[0.8125rem]`; full width on the narrowest, then row + wrap from `min-[400px]`
 - **CTA card:** `bg-nomination-card` (`#171723`)
 
-## How to use in another project
+## Add this template to another project
 
-1. Copy `templates/marketing-about-page/src/` to e.g. `src/components/marketing-about/`.
-2. Merge `styles/tailwind-gold-snippet.css` (or ensure your `globals` define the same colors + `shadow-gold-sm`).
-3. Use `aboutPageExampleData` and replace copy/hrefs, **or** adapt `aboutPageDefaultData` as a starting point.
-4. Add `app/.../about/page.tsx` with your `ContentMain` (or `main` + padding) + `<AboutPageView data={...} />` — see `examples/`.
-5. Set `export const metadata` for SEO.
+Work through these steps in the **target** app (in order).
 
-**Zip:** `bash templates/marketing-about-page/pack-template.sh` from the repo root.
+### 1. Get the template files
+
+| Source | What to do |
+|--------|------------|
+| **Zip** | In **elite-steppers-platform** run `bash templates/marketing-about-page/pack-template.sh`, then unzip `marketing-about-page-template.zip`. Use the `templates/marketing-about-page` folder as the template root. |
+| **Copy** | Copy `templates/marketing-about-page` from a checkout of this repo. |
+
+### 2. Copy into your app
+
+| From template | Into your app (example) |
+|---------------|-------------------------|
+| `src/*` | e.g. `src/components/marketing-about/` (keep `index.ts` for exports) |
+| `public/images/*` | `public/images/` (merge — needed for `aboutPageDefaultData` and `aboutPageExampleData` hero paths) |
+| `styles/tailwind-gold-snippet.css` | Merge into your global CSS (see step 3) |
+| `examples/*.tsx` | **Reference only** — copy patterns into `app/.../about/page.tsx` |
+
+### 3. Global CSS (theme)
+
+After `@import "tailwindcss";` in `globals.css` (or equivalent), merge **`styles/tailwind-gold-snippet.css`**, or ensure your app already defines the same `text-gold`, `bg-gold`, `bg-nomination-card`, `text-background`, and **`shadow-gold-sm`**. The About page will look wrong if these tokens are missing.
+
+### 4. TypeScript path alias
+
+In **`tsconfig.json`**:
+
+```json
+"paths": { "@/*": ["./src/*"] }
+```
+
+Use imports such as:
+
+```ts
+import { AboutPageView, aboutPageDefaultData } from "@/components/marketing-about";
+```
+
+(Adjust the folder name if you used a different path.)
+
+### 5. Add the route
+
+1. Add e.g. `app/(marketing)/about/page.tsx` (or `app/about/page.tsx` — avoid **duplicate URLs** for the same path with and without a route group).
+2. Follow `examples/next-app-about-page.elite-parity.tsx` (full copy) or `examples/next-app-about-page.tsx` (greenfield) — **replace** `import … from "../src"` with the `@/components/...` import from step 4.
+3. Wrap the page in your shared marketing shell or a `<main>` with the same max-width / padding as your other pages (the examples show a `main` wrapper; use `ContentMain` if your app has it).
+4. `export const metadata` for `title` and `description`.
+
+### 6. Data
+
+Use **`aboutPageDefaultData`** for production-style copy, or **`aboutPageExampleData`** for a short starter; update `heroImage`, links, and body copy for your org.
+
+### 7. Checklist
+
+- [ ] `public/images/` includes `about-hero-cinematic.png` and `1.png` (or you changed `heroImage.src` in data).
+- [ ] Gold / nomination-card styles present (snippet or your theme).
+- [ ] `@/*` imports resolve; `npm run build` passes.
+
+**Zip (optional):** `bash templates/marketing-about-page/pack-template.sh` from the **elite-steppers-platform** repo root.
