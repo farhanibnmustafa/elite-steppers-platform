@@ -18,4 +18,4 @@ npm-debug.log*
 # typescript
 *.tsbuildinfo
 
-# template zips at repo root are tracked; rebuild with: bash templates/<name>/pack-template.sh
+# template zips at repo root are tracked; rebuild all: bash scripts/pack-all-templates.sh
