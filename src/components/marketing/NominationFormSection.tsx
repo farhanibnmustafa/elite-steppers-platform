@@ -68,6 +68,7 @@ export function NominationFormSection() {
         <form
           className="flex flex-col gap-5 sm:gap-6"
           onSubmit={(e) => e.preventDefault()}
+          suppressHydrationWarning
         >
           <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
             {/* Nominee — stretches to match right column height */}

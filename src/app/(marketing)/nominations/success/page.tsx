@@ -6,9 +6,8 @@ export const metadata: Metadata = {
 };
 
 /**
- * Renders the thank-you view only in the client bundle (via `NominationSuccessRouteHost`)
- * so security extensions that inject `bis_skin_checked` on DOM nodes do not cause
- * React hydration errors against server-rendered HTML.
+ * Thank-you view: client island in `NominationSuccessRouteHost` (SSR + hydration
+ * warning suppression for extension-injected attributes; see that module).
  */
 export default function NominationSuccessPage() {
   return <NominationSuccessRouteHost />;

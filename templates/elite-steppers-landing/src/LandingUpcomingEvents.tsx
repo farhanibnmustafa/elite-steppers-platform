@@ -6,7 +6,7 @@ const PLACEHOLDER_COUNT = 6;
 export function LandingUpcomingEvents() {
   return (
     <section
-      className="relative w-full min-w-0 bg-[#0a0a0c] pt-8 pb-12 sm:pt-12 sm:pb-14 md:pt-14 md:pb-16"
+      className="relative w-full min-w-0 bg-background pt-8 pb-12 sm:pt-12 sm:pb-14 md:pt-14 md:pb-16"
       aria-labelledby="upcoming-events-heading"
     >
       <div className={landingInnerMax}>

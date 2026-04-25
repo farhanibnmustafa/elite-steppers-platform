@@ -2,9 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
+import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
-import { landingContentMax, landingGutterX } from "./landingLayout";
+import {
+  landingContentMax,
+  landingGutterX,
+} from "./landingLayout";
 
 /** Top row: text-only, uppercase, wider spacing. */
 const primaryLinks: { href: string; label: string }[] = [
@@ -77,6 +81,8 @@ function CloseIcon({ className }: { className?: string }) {
 
 type LandingHeaderProps = {
   logoPriority?: boolean;
+  /** When true, removes the bottom border so a full-bleed hero can sit flush under the bar. */
+  heroFlush?: boolean;
 };
 
 /** One type scale for top text links and bottom bar buttons (aligned; tiny bump from prior sizes). */
@@ -86,6 +92,23 @@ const navItemTextSize =
 /** Bottom nav: subtle radius, black fill + gold ring; tight padding. */
 const navPillClass =
   `inline-flex min-h-7 min-w-0 max-w-full items-center justify-center rounded-md border border-gold bg-black px-1.5 py-0.5 text-center ${navItemTextSize} tracking-[0.02em] sm:min-h-7 sm:px-2 sm:py-0.5 sm:tracking-[0.03em] md:px-2 md:py-0.5`;
+
+const primaryLinkBase =
+  "inline-flex text-center transition-colors duration-200 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold/70";
+
+const primaryLinkInactive =
+  `${primaryLinkBase} text-white hover:text-gold`;
+
+const primaryLinkActive =
+  `${primaryLinkBase} text-gold hover:underline hover:decoration-gold/80 hover:underline-offset-4`;
+
+/** Inactive pill: outline → solid gold fill on hover (matches brand CTA pattern). */
+const navPillInactiveHover =
+  "transition-[color,background-color,border-color,filter] duration-200 hover:border-gold hover:bg-gold hover:text-background active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold/80";
+
+/** Active (solid gold) pill: subtle brightening on hover. */
+const navPillActiveHover =
+  "transition-[filter,transform] duration-200 hover:brightness-105 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold/90";
 
 function NavLinks({
   pathname,
@@ -123,8 +146,12 @@ function NavLinks({
                   aria-current={active ? "page" : undefined}
                   className={
                     isMobile
-                      ? `block rounded-md px-1 py-2.5 ${navItemTextSize} tracking-[0.06em] text-white transition hover:bg-white/5`
-                      : `inline-flex text-center ${navItemTextSize} tracking-[0.06em] text-white transition hover:opacity-90`
+                      ? `block rounded-md px-1 py-2.5 ${navItemTextSize} tracking-[0.06em] transition-colors duration-200 hover:bg-gold/10 hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold/70 ${
+                        active ? "text-gold" : "text-white"
+                      }`
+                      : `${navItemTextSize} tracking-[0.06em] ${
+                        active ? primaryLinkActive : primaryLinkInactive
+                      }`
                   }
                 >
                   {label}
@@ -150,8 +177,8 @@ function NavLinks({
                     aria-current={active ? "page" : undefined}
                     className={`${navPillClass} w-full ${
                       active
-                        ? "!border-gold !bg-gold text-black"
-                        : "text-white transition hover:bg-white/[0.06]"
+                        ? `!border-gold !bg-gold text-background ${navPillActiveHover}`
+                        : `text-white ${navPillInactiveHover}`
                     } `}
                   >
                     {label}
@@ -171,8 +198,8 @@ function NavLinks({
                   aria-current={active ? "page" : undefined}
                   className={
                     active
-                      ? `${navPillClass} !border-gold !bg-gold text-black`
-                      : `${navPillClass} text-white transition hover:bg-white/[0.07]`
+                      ? `${navPillClass} !border-gold !bg-gold text-background ${navPillActiveHover}`
+                      : `${navPillClass} text-white ${navPillInactiveHover}`
                   }
                 >
                   {label}
@@ -186,25 +213,26 @@ function NavLinks({
   );
 }
 
-export function LandingHeader({ logoPriority = true }: LandingHeaderProps) {
+export function LandingHeader({
+  logoPriority = true,
+  heroFlush = false,
+}: LandingHeaderProps) {
   const pathname = usePathname();
-  const detailsRef = useRef<HTMLDetailsElement>(null);
   const menuPanelId = useId();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const closeMenu = useCallback(() => {
-    const el = detailsRef.current;
-    if (el) {
-      el.open = false;
-    }
+    setMenuOpen(false);
   }, []);
 
-  const handleToggle = (e: React.SyntheticEvent<HTMLDetailsElement>) => {
-    setMenuOpen((e.currentTarget as HTMLDetailsElement).open);
-  };
+  const openMenu = useCallback(() => {
+    setMenuOpen(true);
+  }, []);
 
   useEffect(() => {
-    closeMenu();
+    queueMicrotask(() => {
+      closeMenu();
+    });
   }, [pathname, closeMenu]);
 
   useEffect(() => {
@@ -238,7 +266,9 @@ export function LandingHeader({ logoPriority = true }: LandingHeaderProps) {
 
   return (
     <header
-      className="relative z-[200] border-b border-white/10 bg-black isolate [touch-action:manipulation]"
+      className={`relative z-[200] bg-black isolate [touch-action:manipulation] ${
+        heroFlush ? "border-b-0" : "border-b border-white/10"
+      }`}
     >
       <div
         className={`mx-auto ${landingContentMax} py-3 sm:py-4 md:py-6 ${landingGutterX}`}
@@ -261,52 +291,63 @@ export function LandingHeader({ logoPriority = true }: LandingHeaderProps) {
               />
             </Link>
 
-            <details
-              ref={detailsRef}
-              className="relative z-[201] list-none lg:hidden"
-              onToggle={handleToggle}
-            >
-              <summary
-                className="flex h-11 w-11 shrink-0 list-none items-center justify-center rounded-md border border-white/20 bg-black text-white [touch-action:manipulation] [&::-webkit-details-marker]:hidden"
+            <div className="relative z-[201] list-none lg:hidden">
+              <button
+                type="button"
+                className="relative z-10 flex h-11 w-11 shrink-0 list-none items-center justify-center rounded-md border border-white/20 bg-black text-white transition-colors duration-200 hover:border-white/40 hover:bg-white/10 [touch-action:manipulation] [-webkit-tap-highlight-color:transparent] cursor-pointer"
                 aria-controls={menuPanelId}
-                aria-label="Open menu"
+                aria-expanded={menuOpen}
+                aria-label={menuOpen ? "Menu open" : "Open menu"}
+                tabIndex={menuOpen ? -1 : 0}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (!menuOpen) openMenu();
+                }}
               >
-                <MenuIcon />
-              </summary>
-              <div
-                id={menuPanelId}
-                role="dialog"
-                aria-modal="true"
-                aria-label="Main navigation"
-                className="fixed inset-0 z-[10000] flex min-h-0 max-h-dvh min-w-0 flex-col overflow-hidden bg-black pt-[max(0.5rem,env(safe-area-inset-top))]"
-                onKeyDown={(e) => e.stopPropagation()}
-              >
-                <div
-                  className={`mx-auto flex w-full min-w-0 ${landingContentMax} shrink-0 items-center justify-between border-b border-white/10 pb-3 ${landingGutterX}`}
-                >
-                  <span className="min-w-0 text-sm font-normal uppercase tracking-wide text-white/80">
-                    Menu
-                  </span>
-                  <button
-                    type="button"
-                    className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-white/20 text-white transition hover:bg-white/10 [touch-action:manipulation]"
-                    aria-label="Close menu"
-                    onClick={closeMenu}
+                <MenuIcon className="pointer-events-none" />
+              </button>
+            </div>
+            {menuOpen
+              ? createPortal(
+                  <div
+                    id={menuPanelId}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Main navigation"
+                    className="fixed inset-0 z-[10000] flex h-[100dvh] min-h-0 min-w-0 flex-col overflow-hidden bg-black pt-[max(0.5rem,env(safe-area-inset-top))]"
+                    onKeyDown={(e) => e.stopPropagation()}
                   >
-                    <CloseIcon />
-                  </button>
-                </div>
-                <div
-                  className={`min-h-0 flex-1 overflow-y-auto overscroll-y-contain py-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] ${landingGutterX}`}
-                >
-                  <NavLinks
-                    pathname={pathname}
-                    variant="mobile"
-                    onNavigate={closeMenu}
-                  />
-                </div>
-              </div>
-            </details>
+                    <div
+                      className={`relative z-[1] mx-auto flex w-full min-w-0 ${landingContentMax} shrink-0 items-center justify-between border-b border-white/10 pb-3 ${landingGutterX}`}
+                    >
+                      <span className="min-w-0 text-sm font-normal uppercase tracking-wide text-white/80">
+                        Menu
+                      </span>
+                      <button
+                        type="button"
+                        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-white/20 text-white transition hover:bg-white/10 [touch-action:manipulation] cursor-pointer [-webkit-tap-highlight-color:transparent]"
+                        aria-label="Close menu"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          closeMenu();
+                        }}
+                      >
+                        <CloseIcon className="pointer-events-none" />
+                      </button>
+                    </div>
+                    <div
+                      className={`min-h-0 flex-1 overflow-y-auto overscroll-y-contain py-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] ${landingGutterX}`}
+                    >
+                      <NavLinks
+                        pathname={pathname}
+                        variant="mobile"
+                        onNavigate={closeMenu}
+                      />
+                    </div>
+                  </div>,
+                  document.body
+                )
+              : null}
           </div>
 
           <div className="mt-0 hidden w-full min-w-0 flex-1 flex-col items-stretch gap-4 self-stretch sm:gap-4 lg:mt-0 lg:flex lg:items-end">

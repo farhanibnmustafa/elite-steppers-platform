@@ -13,7 +13,7 @@ const criteria = [
 export function LandingCommunityPride() {
   return (
     <section
-      className="relative w-full min-w-0 bg-[#0a0a0c] pt-5 pb-6 sm:pt-6 sm:pb-8 md:pt-7 md:pb-9"
+      className="relative w-full min-w-0 bg-background pt-5 pb-6 sm:pt-6 sm:pb-8 md:pt-7 md:pb-9"
       aria-label="Community pride and induction criteria"
     >
       <div className={landingInnerMax}>
@@ -35,7 +35,7 @@ export function LandingCommunityPride() {
             <div className="mt-auto pt-4 sm:pt-4">
               <Link
                 href="/nominations"
-                className="inline-flex items-center justify-center rounded-[10px] bg-gold px-4 py-1.5 text-[0.6875rem] font-medium tracking-tight text-[#0a0a0c] shadow-[0_4px_16px_-8px_rgba(212,175,55,0.5)] transition hover:brightness-105 sm:px-5 sm:py-2 sm:text-xs"
+                className="shadow-gold-cta inline-flex items-center justify-center rounded-[10px] bg-gold px-4 py-1.5 text-[0.6875rem] font-medium tracking-tight text-background transition hover:brightness-105 sm:px-5 sm:py-2 sm:text-xs"
               >
                 Submit a Nomination
               </Link>

@@ -8,14 +8,16 @@ import { NominateHero } from "@/components/marketing/NominateHero";
 import { landingInnerMax } from "@/components/marketing/landingLayout";
 
 /**
- * Entire success route body, client-only in `page.tsx` (dynamic ssr: false) so
- * browser security extensions that inject `bis_skin_checked` etc. cannot cause
- * hydration mismatches the way they do for SSR+hydrate. Same strategy as
- * `NominationsClientSectionsHost` on the nominations form route.
+ * Thank-you body for the success route. SSRs like `NominationsClientSections`;
+ * `suppressHydrationWarning` on the root blunts extension-injected attribute
+ * mismatches.
  */
 export function NominationSuccessPageClient() {
   return (
-    <div className="flex w-full min-w-0 flex-1 flex-col">
+    <div
+      className="flex w-full min-w-0 flex-1 flex-col"
+      suppressHydrationWarning
+    >
       <NominateHero />
       <section
         className="relative z-10 flex w-full min-w-0 flex-1 flex-col items-center justify-center overflow-x-clip bg-black pt-[max(2.5rem,env(safe-area-inset-top))] pb-6 sm:pb-8 md:pb-0 sm:pt-[3.5rem] md:pt-20"

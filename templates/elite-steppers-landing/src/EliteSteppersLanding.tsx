@@ -16,7 +16,7 @@ export function EliteSteppersLanding({
   logoPriority = true,
 }: EliteSteppersLandingProps) {
   return (
-    <div className="flex min-h-dvh w-full min-w-0 flex-col overflow-x-clip bg-[#0a0a0c] text-white">
+    <div className="flex min-h-dvh w-full min-w-0 flex-col overflow-x-clip bg-background text-white">
       <LandingHeader logoPriority={logoPriority} />
       <EliteSteppersLandingSections />
     </div>

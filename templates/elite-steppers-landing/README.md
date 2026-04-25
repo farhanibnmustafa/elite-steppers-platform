@@ -33,6 +33,7 @@ templates/elite-steppers-landing/
     NominateHero.tsx … (nominations)   # + nominationFormStyles, client sections, …
     index.ts                          # barrel exports
     landingLayout.ts
+    InducteeGalleryCard.tsx            # + InducteeGallerySection (shared gallery grid)
     LandingHeader.tsx … LandingNewsletterFooter.tsx
   public/images/               # home + nominations hero, logo, merch, footer (same as main site)
   styles/landing-globals-snippet.css
@@ -78,6 +79,7 @@ In the **elite-steppers-platform** repo, the root `tsconfig.json` excludes `temp
 - **React** 18+
 - **Tailwind CSS** v4 with `@import "tailwindcss";` in your global CSS
 - **TypeScript** (recommended; matches the examples)
+- **Dev on another device (LAN, e.g. phone at `http://192.168.x.x:3000`):** in Next 16+ add `allowedDevOrigins` in `next.config` with your host/IP so the dev client and HMR connect; otherwise the page may not hydrate and interactive pieces (e.g. the mobile menu) can look broken. Merge the same `allowedDevOrigins` pattern the main `elite-steppers-platform` `next.config.ts` uses, or set `ALLOWED_DEV_ORIGINS` as documented there.
 
 > **Not using Next.js?** See `PORTING_NON_NEXT.md`. **Using the Pages Router (`pages/`)?** The same components usually work, but you mount them from `pages/*.tsx` and `_app.tsx` instead; this README only documents the App Router.
 

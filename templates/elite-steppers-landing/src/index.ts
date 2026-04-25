@@ -6,6 +6,12 @@ export { MarketingLayoutShell } from "./MarketingLayoutShell";
 export { LandingHeader } from "./LandingHeader";
 export { LandingHero } from "./LandingHero";
 export { LandingInducteeGallery } from "./LandingInducteeGallery";
+export { InducteeGallerySection } from "./InducteeGallerySection";
+export {
+  InducteeGalleryCard,
+  InducteeGalleryPlaceholderGrid,
+} from "./InducteeGalleryCard";
+export type { InducteeGalleryCardProps } from "./InducteeGalleryCard";
 export { LandingUpcomingEvents } from "./LandingUpcomingEvents";
 export { LandingCommunityPride } from "./LandingCommunityPride";
 export { LandingMerch } from "./LandingMerch";

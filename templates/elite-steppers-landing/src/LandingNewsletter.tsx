@@ -40,7 +40,7 @@ export function LandingNewsletter({
       <div className={`${inner} ${headingBlockPadding}`}>
         <h2
           id="newsletter-heading"
-          className="text-balance px-1 text-[1.3rem] font-semibold leading-tight text-white min-[400px]:text-[1.45rem] sm:text-[1.7rem] md:text-[1.8rem] lg:text-[1.9rem]"
+          className="text-balance px-1 text-[clamp(1.15rem,4.2vw,1.9rem)] font-semibold leading-tight text-white"
         >
           Legends Move Fast. Don&apos;t Miss a Beat.
         </h2>

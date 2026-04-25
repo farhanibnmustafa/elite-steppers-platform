@@ -1,6 +1,6 @@
 /**
- * Shared surface styles for the nominations page (colors from the landing CSS
- * snippet: --nomination-* tokens).
+ * Shared surface styles for the nominations page (colors from `globals.css`
+ * --nomination-* tokens).
  */
 export const nominationSurfaceClass = "bg-background";
 
@@ -62,5 +62,5 @@ export const nominationFileFieldShellClass = [
 
 export const nominationSelectOptionClass = "bg-nomination-field text-zinc-100";
 
-/** Checkboxes: square, light border, cool grey fill — see `.nomination-form-checkbox` in snippet */
+/** Checkboxes: square, light border, cool grey fill — see `.nomination-form-checkbox` in globals.css */
 export const nominationCheckboxClass = "nomination-form-checkbox";

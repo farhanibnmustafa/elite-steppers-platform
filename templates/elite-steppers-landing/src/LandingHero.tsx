@@ -42,11 +42,11 @@ export function LandingHero() {
 
   return (
     <section
-      className="relative flex w-full min-w-0 min-h-[min(70svh,32rem)] flex-1 flex-col overflow-x-clip overflow-y-visible bg-[#0a0a0c] sm:min-h-[min(75svh,36rem)] md:min-h-[min(78svh,38rem)] lg:min-h-[min(82svh,42rem)]"
+      className="relative flex w-full min-w-0 min-h-[min(70svh,32rem)] flex-1 flex-col overflow-x-clip overflow-y-visible bg-background sm:min-h-[min(75svh,36rem)] md:min-h-[min(78svh,38rem)] lg:min-h-[min(82svh,42rem)]"
       aria-labelledby="hero-heading"
     >
       <div
-        className="pointer-events-none absolute inset-0 z-0 w-full min-h-0 overflow-hidden bg-[#0a0a0c]"
+        className="pointer-events-none absolute inset-0 z-0 w-full min-h-0 overflow-hidden bg-background"
         aria-hidden
       >
         <div className="relative h-full min-h-0 w-full">
@@ -80,7 +80,7 @@ export function LandingHero() {
             <span className="block">Honoring the legends who</span>
             <span className="mt-1.5 block min-[400px]:mt-2 sm:mt-2">
               keep the{" "}
-              <span className="font-semibold text-gold [word-spacing:0.02em] [text-shadow:0.55px_0_0_rgba(212,175,55,0.99),-0.55px_0_0_rgba(212,175,55,0.99),0_0.45px_0_rgba(212,175,55,0.5),0_2px_7px_rgba(0,0,0,0.48),0_0_1px_rgba(0,0,0,0.6)] min-[400px]:[word-spacing:0.04em] lg:[word-spacing:0.05em]">
+              <span className="text-shadow-gold-accent font-semibold text-gold [word-spacing:0.02em] min-[400px]:[word-spacing:0.04em] lg:[word-spacing:0.05em]">
                 floor
               </span>{" "}
               alive.

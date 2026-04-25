@@ -5,9 +5,9 @@ import { LandingNewsletterFooter } from "@/components/marketing/LandingNewslette
 import { NominationFormSection } from "@/components/marketing/NominationFormSection";
 
 /**
- * Renders only on the client so React does not hydrate server HTML that may be
- * altered by browser extensions (e.g. `bis_skin_checked` from security tools),
- * which otherwise causes hydration mismatches on this page.
+ * Client island for the nomination form, newsletter, and footer. The form
+ * still SSRs; extension-injected attributes on the client are handled at the
+ * form root in `NominationFormSection` via `suppressHydrationWarning`.
  */
 export default function NominationsClientSections() {
   return (

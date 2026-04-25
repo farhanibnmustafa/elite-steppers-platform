@@ -6,10 +6,10 @@
     "node": ">=20.9.0"
   },
   "scripts": {
-    "dev": "node scripts/clean-next.mjs --dev && next dev --turbo",
-    "dev:fast": "next dev --turbo",
-    "dev:reset": "node scripts/clean-next.mjs && next dev --turbo",
-    "dev:webpack": "next dev --webpack",
+    "dev": "node scripts/clean-next.mjs --dev && next dev -H 0.0.0.0 --turbo",
+    "dev:fast": "next dev -H 0.0.0.0 --turbo",
+    "dev:reset": "node scripts/clean-next.mjs && next dev -H 0.0.0.0 --turbo",
+    "dev:webpack": "next dev -H 0.0.0.0 --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0"

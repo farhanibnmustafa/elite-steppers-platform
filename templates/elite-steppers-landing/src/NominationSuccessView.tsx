@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { LandingNewsletter } from "./LandingNewsletter";
 import { LandingNewsletterFooter } from "./LandingNewsletterFooter";
@@ -20,7 +22,10 @@ export function NominationSuccessView({
   youRockFontClassName,
 }: NominationSuccessViewProps) {
   return (
-    <div className="flex w-full min-w-0 flex-1 flex-col">
+    <div
+      className="flex w-full min-w-0 flex-1 flex-col"
+      suppressHydrationWarning
+    >
       <NominateHero />
       <section
         className="relative z-10 flex w-full min-w-0 flex-1 flex-col items-center justify-center overflow-x-clip bg-black pt-[max(2.5rem,env(safe-area-inset-top))] pb-6 sm:pb-8 md:pb-0 sm:pt-[3.5rem] md:pt-20"

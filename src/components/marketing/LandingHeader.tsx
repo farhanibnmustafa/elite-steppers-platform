@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
+import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import {
   landingContentMax,
@@ -217,23 +218,21 @@ export function LandingHeader({
   heroFlush = false,
 }: LandingHeaderProps) {
   const pathname = usePathname();
-  const detailsRef = useRef<HTMLDetailsElement>(null);
   const menuPanelId = useId();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const closeMenu = useCallback(() => {
-    const el = detailsRef.current;
-    if (el) {
-      el.open = false;
-    }
+    setMenuOpen(false);
   }, []);
 
-  const handleToggle = (e: React.SyntheticEvent<HTMLDetailsElement>) => {
-    setMenuOpen((e.currentTarget as HTMLDetailsElement).open);
-  };
+  const openMenu = useCallback(() => {
+    setMenuOpen(true);
+  }, []);
 
   useEffect(() => {
-    closeMenu();
+    queueMicrotask(() => {
+      closeMenu();
+    });
   }, [pathname, closeMenu]);
 
   useEffect(() => {
@@ -292,52 +291,63 @@ export function LandingHeader({
               />
             </Link>
 
-            <details
-              ref={detailsRef}
-              className="relative z-[201] list-none lg:hidden"
-              onToggle={handleToggle}
-            >
-              <summary
-                className="flex h-11 w-11 shrink-0 list-none items-center justify-center rounded-md border border-white/20 bg-black text-white transition-colors duration-200 hover:border-white/40 hover:bg-white/10 [touch-action:manipulation] [&::-webkit-details-marker]:hidden"
+            <div className="relative z-[201] list-none lg:hidden">
+              <button
+                type="button"
+                className="relative z-10 flex h-11 w-11 shrink-0 list-none items-center justify-center rounded-md border border-white/20 bg-black text-white transition-colors duration-200 hover:border-white/40 hover:bg-white/10 [touch-action:manipulation] [-webkit-tap-highlight-color:transparent] cursor-pointer"
                 aria-controls={menuPanelId}
-                aria-label="Open menu"
+                aria-expanded={menuOpen}
+                aria-label={menuOpen ? "Menu open" : "Open menu"}
+                tabIndex={menuOpen ? -1 : 0}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (!menuOpen) openMenu();
+                }}
               >
-                <MenuIcon />
-              </summary>
-              <div
-                id={menuPanelId}
-                role="dialog"
-                aria-modal="true"
-                aria-label="Main navigation"
-                className="fixed inset-0 z-[10000] flex min-h-0 max-h-dvh min-w-0 flex-col overflow-hidden bg-black pt-[max(0.5rem,env(safe-area-inset-top))]"
-                onKeyDown={(e) => e.stopPropagation()}
-              >
-                <div
-                  className={`mx-auto flex w-full min-w-0 ${landingContentMax} shrink-0 items-center justify-between border-b border-white/10 pb-3 ${landingGutterX}`}
-                >
-                  <span className="min-w-0 text-sm font-normal uppercase tracking-wide text-white/80">
-                    Menu
-                  </span>
-                  <button
-                    type="button"
-                    className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-white/20 text-white transition hover:bg-white/10 [touch-action:manipulation]"
-                    aria-label="Close menu"
-                    onClick={closeMenu}
+                <MenuIcon className="pointer-events-none" />
+              </button>
+            </div>
+            {menuOpen
+              ? createPortal(
+                  <div
+                    id={menuPanelId}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Main navigation"
+                    className="fixed inset-0 z-[10000] flex h-[100dvh] min-h-0 min-w-0 flex-col overflow-hidden bg-black pt-[max(0.5rem,env(safe-area-inset-top))]"
+                    onKeyDown={(e) => e.stopPropagation()}
                   >
-                    <CloseIcon />
-                  </button>
-                </div>
-                <div
-                  className={`min-h-0 flex-1 overflow-y-auto overscroll-y-contain py-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] ${landingGutterX}`}
-                >
-                  <NavLinks
-                    pathname={pathname}
-                    variant="mobile"
-                    onNavigate={closeMenu}
-                  />
-                </div>
-              </div>
-            </details>
+                    <div
+                      className={`relative z-[1] mx-auto flex w-full min-w-0 ${landingContentMax} shrink-0 items-center justify-between border-b border-white/10 pb-3 ${landingGutterX}`}
+                    >
+                      <span className="min-w-0 text-sm font-normal uppercase tracking-wide text-white/80">
+                        Menu
+                      </span>
+                      <button
+                        type="button"
+                        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-white/20 text-white transition hover:bg-white/10 [touch-action:manipulation] cursor-pointer [-webkit-tap-highlight-color:transparent]"
+                        aria-label="Close menu"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          closeMenu();
+                        }}
+                      >
+                        <CloseIcon className="pointer-events-none" />
+                      </button>
+                    </div>
+                    <div
+                      className={`min-h-0 flex-1 overflow-y-auto overscroll-y-contain py-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] ${landingGutterX}`}
+                    >
+                      <NavLinks
+                        pathname={pathname}
+                        variant="mobile"
+                        onNavigate={closeMenu}
+                      />
+                    </div>
+                  </div>,
+                  document.body
+                )
+              : null}
           </div>
 
           <div className="mt-0 hidden w-full min-w-0 flex-1 flex-col items-stretch gap-4 self-stretch sm:gap-4 lg:mt-0 lg:flex lg:items-end">

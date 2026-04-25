@@ -1,21 +1,15 @@
-"use client";
+import NominationsClientSections from "./NominationsClientSections";
 
-import dynamic from "next/dynamic";
-
-const NominationsClientSections = dynamic(
-  () => import("./NominationsClientSections"),
-  {
-    ssr: false,
-    loading: () => (
-      <div
-        className="w-full min-h-[28rem] bg-gradient-to-b from-zinc-950/40 to-transparent"
-        aria-busy
-        aria-label="Loading nomination form and footer"
-      />
-    ),
-  },
-);
-
+/**
+ * Renders the nomination form, newsletter, and marketing footer. These live in
+ * a client entry so the form can use state and interactivity, but we do **not**
+ * use `next/dynamic` with `ssr: false` here: that pattern shipped no HTML for
+ * this block, so on slow networks or if the client bundle failed to load
+ * (e.g. dev over LAN to a phone), the page looked like a blank area below
+ * criteria. The previous `ssr: false` workaround for extension-driven hydration
+ * quirks is replaced by `suppressHydrationWarning` on the form’s root
+ * (see `NominationFormSection`).
+ */
 export function NominationsClientSectionsHost() {
   return <NominationsClientSections />;
 }

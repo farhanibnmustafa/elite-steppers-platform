@@ -68,8 +68,10 @@ export function NominationFormSection() {
         <form
           className="flex flex-col gap-5 sm:gap-6"
           onSubmit={(e) => e.preventDefault()}
+          suppressHydrationWarning
         >
           <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
+            {/* Nominee — stretches to match right column height */}
             <div
               className={`${nominationCardClass} flex h-full min-h-0 min-w-0 flex-col gap-4 sm:gap-5`}
             >
@@ -197,6 +199,7 @@ export function NominationFormSection() {
               </div>
             </div>
 
+            {/* Right: stacked cards — column stretches to match left; bottom card flexes */}
             <div className="flex h-full min-h-0 min-w-0 flex-col gap-5 sm:gap-6">
               <div
                 className={`${nominationCardClass} flex shrink-0 flex-col gap-4 sm:gap-5`}
@@ -280,6 +283,7 @@ export function NominationFormSection() {
             </div>
           </div>
 
+          {/* Confirmation: checkboxes align with nominee column; CTA full width of right column (matches cards above) */}
           <div className="mt-6 grid w-full min-w-0 grid-cols-1 gap-5 sm:mt-8 sm:gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
             <div className="flex min-w-0 flex-col gap-2.5 sm:gap-3">
               <label className="flex cursor-pointer items-center gap-2.5 text-sm font-normal leading-snug text-white">

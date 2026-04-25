@@ -1,27 +1,12 @@
-"use client";
-
-import dynamic from "next/dynamic";
-
-const NominationSuccessPageClient = dynamic(
-  () =>
-    import("@/components/marketing/NominationSuccessPageClient").then(
-      (m) => m.NominationSuccessPageClient
-    ),
-  {
-    ssr: false,
-    loading: () => (
-      <div
-        className="w-full min-h-[min(60vh,32rem)] bg-black"
-        aria-busy
-        aria-label="Loading page"
-      />
-    ),
-  }
-);
+import { NominationSuccessPageClient } from "@/components/marketing/NominationSuccessPageClient";
 
 /**
- * Client-only mount for the nomination success route (see `NominationsClientSectionsHost`).
- * Avoids hydration mismatches when browser extensions inject attributes on SSR HTML.
+ * Renders the success thank-you view (client island). We do not use
+ * `next/dynamic` with `ssr: false` here: that shipped no HTML for the body, so
+ * on slow networks or dev over LAN the page looked like a blank area under the
+ * header. Extension-injected attributes are handled on the client root in
+ * `NominationSuccessPageClient` via `suppressHydrationWarning` (see
+ * `NominationsClientSectionsHost` / `NominationFormSection`).
  */
 export function NominationSuccessRouteHost() {
   return <NominationSuccessPageClient />;
