@@ -1,0 +1,6 @@
+/* Optional: if your app has no .font-brand rule, merge after @import "tailwindcss"; in globals. */
+@layer components {
+  .font-brand {
+    font-family: var(--font-ui), "Poppins", system-ui, sans-serif;
+  }
+}

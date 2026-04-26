@@ -10,7 +10,8 @@ for s in \
   templates/marketing-about-page/pack-template.sh \
   templates/marketing-donate-page/pack-template.sh \
   templates/marketing-contact-page/pack-template.sh \
-  templates/legal-terms-page/pack-template.sh
+  templates/legal-terms-page/pack-template.sh \
+  templates/marketing-stub-pages/pack-template.sh
 do
   echo "==> $s"
   bash "$s"

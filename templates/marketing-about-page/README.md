@@ -28,7 +28,7 @@ When you change the live `AboutPageView` or `aboutPageDefaultData` in the repo, 
 | `examples/next-app-about-page.tsx` | Greenfield route using example data |
 | `examples/next-app-about-page.elite-parity.tsx` | Production-style route using `aboutPageDefaultData` |
 | `pack-template.sh` | Zips this folder → `marketing-about-page-template.zip` (repo root, gitignored) |
-| `public/images/*.png` | Demo art for default + example data; merge into your app’s `public/images/` |
+| `public/images/*.png` | Demo art (hero, example, newsletter footer); merge into your app’s `public/images/` |
 | `tsconfig.json` | Local TS (root `tsconfig` may `exclude` `templates/**`) |
 
 ## Images (`public/images/`)
@@ -37,8 +37,9 @@ The template **includes** demo assets so routes work out of the box:
 
 - `about-hero-cinematic.png` — `aboutPageDefaultData` hero  
 - `1.png` — `aboutPageExampleData` (greenfield placeholder)  
+- `11.png` — `LandingNewsletterFooter` wide footer photo (same as the main app)
 
-`next/image` uses paths like `/images/about-hero-cinematic.png`. Merge this folder into the target app’s `public/`, or change `heroImage.src` in your data.
+`next/image` uses paths like `/images/about-hero-cinematic.png`. Merge this folder into the target app’s `public/`, or change `heroImage.src` in your data (and update `LandingNewsletterFooter` if you replace the footer asset).
 
 ## Requirements
 
@@ -71,7 +72,7 @@ Work through these steps in the **target** app (in order).
 | From template | Into your app (example) |
 |---------------|-------------------------|
 | `src/*` | e.g. `src/components/marketing-about/` (keep `index.ts` for exports) |
-| `public/images/*` | `public/images/` (merge — needed for `aboutPageDefaultData` and `aboutPageExampleData` hero paths) |
+| `public/images/*` | `public/images/` (merge — hero images + `11.png` for the newsletter footer band) |
 | `styles/tailwind-gold-snippet.css` | Merge into your global CSS (see step 3) |
 | `examples/*.tsx` | **Reference only** — copy patterns into `app/.../about/page.tsx` |
 
@@ -108,7 +109,7 @@ Use **`aboutPageDefaultData`** for production-style copy, or **`aboutPageExample
 
 ### 7. Checklist
 
-- [ ] `public/images/` includes `about-hero-cinematic.png` and `1.png` (or you changed `heroImage.src` in data).
+- [ ] `public/images/` includes `about-hero-cinematic.png`, `1.png`, and `11.png` (or you changed `heroImage.src` in data and the footer image path in `LandingNewsletterFooter` if needed).
 - [ ] Gold / nomination-card styles present (snippet or your theme).
 - [ ] `@/*` imports resolve; `npm run build` passes.
 

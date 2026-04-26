@@ -30,7 +30,7 @@ Portable **contact** experience from **elite-steppers-platform**, kept in lockst
 
 ## Get the template
 
-From repo root: `bash templates/marketing-contact-page/pack-template.sh` (or use **`bash scripts/pack-all-templates.sh`** to rebuild all six zips).
+From repo root: `bash templates/marketing-contact-page/pack-template.sh` (or use **`bash scripts/pack-all-templates.sh`** to rebuild all zips in this repo).
 
 ## Add to another project
 

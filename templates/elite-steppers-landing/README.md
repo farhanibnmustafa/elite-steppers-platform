@@ -4,9 +4,9 @@ Portable copy of the **marketing** UI from this repo: header, home sections (her
 
 **Add this to another project:** work through [**How to use this template in another project**](#how-to-use-this-template-in-another-project) in order (files → path alias → **globals + snippet** → fonts → routes → images → checklist). For routing, choose [Option A (home only)](#option-a--single-landing-route-) or [Option B (shared marketing layout)](#option-b--multi-page-marketing-site-shared-header). Unpacking `elite-steppers-landing-template.zip` yields a `templates/elite-steppers-landing` folder; use the contents of that folder as the template root.
 
-## How this template fits the monorepo (6 packages vs. 8 built-out routes)
+## How this template fits the monorepo (7 full templates + 1 stub pack)
 
-The live app’s **fully built** marketing surface includes these routes, and the repo ships **six** reusable **template** folders under `templates/` (each can be packed with `pack-template.sh`):
+The live app’s **fully built** marketing surface includes these routes, and the repo ships **seven** reusable **template** folders under `templates/` for “real” page UIs (each can be packed with `pack-template.sh`):
 
 | App route (built-out) | Reusable template folder |
 |----------------------|--------------------------|
@@ -18,6 +18,8 @@ The live app’s **fully built** marketing surface includes these routes, and th
 | `/donate` | `templates/marketing-donate-page/` |
 | `/contact` | `templates/marketing-contact-page/` |
 | `/terms` | `templates/legal-terms-page/` |
+
+**Placeholder “coming soon” routes** (membership, shop, faq, events, search, merch, member-portal, blog, registration) are bundled in **`templates/marketing-stub-pages/`** as a second pack (`SimpleStubPageView` + per-route data).
 
 **Why home, nominations, and success share this one template:** they use the same **header**, **layout shell**, **global styles and fonts**, **image set**, and the **nominate → success** user journey. Packaging them together avoids duplicating that shell in three zips, matches how teams usually adopt “the marketing site,” and matches maintenance in the monorepo (one template stays aligned with the shared `marketing` components for those flows). You can still use [Option A](#option-a--single-landing-route-) to ship **only the home** route if a project does not need nominations.
 
