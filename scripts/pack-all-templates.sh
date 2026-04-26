@@ -9,6 +9,7 @@ for s in \
   templates/hall-of-fame-page/pack-template.sh \
   templates/marketing-about-page/pack-template.sh \
   templates/marketing-donate-page/pack-template.sh \
+  templates/marketing-contact-page/pack-template.sh \
   templates/legal-terms-page/pack-template.sh
 do
   echo "==> $s"

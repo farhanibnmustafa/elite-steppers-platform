@@ -1,26 +1,26 @@
 # Reusable Next.js — Donate landing page (App Router)
 
-Portable **donate** flow from **elite-steppers-platform**: hero with CTAs, gift form (amount presets + contact fields), impact sidebar, “other ways to give,” newsletter band, and optional wide footer image + legal bar. Layout is **mobile-first**: full-width CTAs on narrow viewports, **two-column** form + impact from the `md` breakpoint, **8 / 4** split from `lg`, safe-area-aware horizontal padding, `clamp()` headings, and `overflow-x-clip` on the page shell.
+Portable **donate** flow from **elite-steppers-platform**, kept aligned with the live App Router page: hero with rail + CTAs, gift form and impact column, the shared [LandingNewsletter](src/LandingNewsletter.tsx) email band, and [LandingNewsletterFooter](src/LandingNewsletterFooter.tsx) (group photo + gold legal strip). Layout is **mobile-first** with `overflow-x-clip` on the page shell.
 
 ## What’s in this template
 
 | Path | Purpose |
 |------|---------|
-| [src/donateConfig.ts](src/donateConfig.ts) | **Edit first:** metadata, hero copy & links, form labels, impact tiers, footer image (`null` to hide), terms URL, copyright |
-| [src/DonatePageView.tsx](src/DonatePageView.tsx) | Composes the full page (use as the default export for `/donate`) |
+| [src/donateConfig.ts](src/donateConfig.ts) | `metadata` **title** / **description** for the example route (optional when porting) |
+| [src/DonatePageView.tsx](src/DonatePageView.tsx) | Composes the full page (same structure as the production `/donate` route) |
 | [src/DonateHero.tsx](src/DonateHero.tsx) | Breadcrumb rail + hero panel |
-| [src/DonateGiftForm.tsx](src/DonateGiftForm.tsx) | Client form (placeholder submit until you wire Stripe/PayPal/etc.) |
+| [src/DonateGiftForm.tsx](src/DonateGiftForm.tsx) | Client form (placeholder submit until you wire payments) |
 | [src/DonatePageSections.tsx](src/DonatePageSections.tsx) | Grid + impact list + “Other ways” links |
-| [src/DonateNewsletter.tsx](src/DonateNewsletter.tsx) | Email capture (client) |
-| [src/DonateFooter.tsx](src/DonateFooter.tsx) | Optional `next/image` band + gold legal strip |
-| [src/landingLayout.ts](src/landingLayout.ts) | `landingInnerMax` gutters (tuned for reuse; align with your site header if needed) |
+| [src/LandingNewsletter.tsx](src/LandingNewsletter.tsx) | Shared newsletter copy + email field |
+| [src/LandingNewsletterFooter.tsx](src/LandingNewsletterFooter.tsx) | Full-bleed `11.png` + terms bar |
+| [src/landingLayout.ts](src/landingLayout.ts) | `landingInnerMax` (matches main site) |
 | [src/index.ts](src/index.ts) | Barrel exports |
 | [styles/tailwind-donate-snippet.css](styles/tailwind-donate-snippet.css) | Optional `--color-gold` + `shadow-gold-*` if your theme lacks them |
-| [examples/next-app-donate-page.tsx](examples/next-app-donate-page.tsx) | Example route wiring + `metadata` |
-| [pack-template.sh](pack-template.sh) | Zips this folder to `marketing-donate-page-template.zip` at repo root |
-| `public/images/11.png` | Wide footer image (`donateConfig.footer.heroImage`); set to `null` in config to hide |
+| [examples/next-app-donate-page.tsx](examples/next-app-donate-page.tsx) | Example `page.tsx` + `metadata` |
+| [pack-template.sh](pack-template.sh) | Zips to `marketing-donate-page-template.zip` at repo root |
+| `public/images/11.png` | Required for the footer image path used in `LandingNewsletterFooter` |
 
-**Note:** `DonateGiftForm` still uses a fixed “middle preset” style for **$100** and **$250**. If you change `amountPresets` in config, adjust `isMiddlePreset` in `DonateGiftForm.tsx` to match your tier layout. `DonatePageSections` maps three impact note rows to lock/bank/receipt icons; keep three notes or edit the icon list.
+**Note:** `DonateGiftForm` uses a fixed “middle preset” style for **$100** and **$250**; if you change presets, update `isMiddlePreset` in `DonateGiftForm.tsx`. Hero copy, impact text, and form labels live in the components (not in `donateConfig`).
 
 ## Requirements in the target project
 
@@ -29,13 +29,13 @@ Portable **donate** flow from **elite-steppers-platform**: hero with CTAs, gift 
 - **Tailwind CSS** v4 with `@import "tailwindcss";` in global CSS
 - **TypeScript** (recommended)
 - Dark page background (e.g. parent layout `bg-black text-white`) and **`gold`** accent (`text-gold`, `border-gold`, `bg-gold`), or merge [styles/tailwind-donate-snippet.css](styles/tailwind-donate-snippet.css)
-- **`next/image`:** add `donateConfig.footer.heroImage.src` to [`images.localPatterns`](https://nextjs.org/docs/app/api-reference/components/image#localpatterns) (or use a remote pattern) if needed
+- **`next/image`:** add `/images/11.png` to [`images.localPatterns`](https://nextjs.org/docs/app/api-reference/components/image#localpatterns) if your Next config requires it
 
 Sans-serif UI font: the live site uses Poppins via `font-sans`. Set your layout’s `font-sans` or add `className="font-sans"` on `DonatePageView`’s wrapper if you rely on a different default.
 
 ## Images (`public/images/`)
 
-The template **ships with** `11.png` for the optional footer photo band. Merge `public/images/` into your Next app’s `public/`, or set `footer.heroImage` to `null` in `donateConfig.ts` / point `src` at your own file.
+Add **`11.png`** under `public/images/` (same as the monorepo) for the footer band, or edit `LandingNewsletterFooter` to use a different asset.
 
 ## Add this template to another project
 
@@ -65,9 +65,9 @@ In **`tsconfig.json`** set `"paths": { "@/*": ["./src/*"] }` (default in many Ne
 import { DonatePageView, donatePageConfig } from "@/components/marketing-donate";
 ```
 
-### 4. Edit configuration first
+### 4. Metadata and copy
 
-Open **`src/donateConfig.ts`**: set hero **rail** links, **impact** text, **footer** `termsHref`, `copyrightPrefix`, and either keep `footer.heroImage` (needs `11.png` in `public/images`) or set it to `null` to remove the image band. All routes you reference in config must exist in the target app or be updated to real paths.
+**`src/donateConfig.ts`** only holds **metadata** for the example page. For hero rails, form labels, and impact text, edit **`DonateHero`**, **`DonatePageSections`**, and **`DonateGiftForm`** to match your site (same as the monorepo).
 
 ### 5. Add the route
 
@@ -81,8 +81,8 @@ Ensure `html` / `body` do not allow horizontal scroll (`overflow-x: clip` on a w
 
 ### 7. Checklist
 
-- [ ] `public/images/11.png` present **or** `footer.heroImage` is `null` / points to a valid file.
-- [ ] `donateConfig` routes and legal strings match your site.
+- [ ] `public/images/11.png` present (or you updated `LandingNewsletterFooter`).
+- [ ] `donateConfig.metadata` and in-component copy / routes match your site.
 - [ ] `npm run dev` and `npm run build` succeed.
 
 ## Parity with elite-steppers-platform
@@ -93,7 +93,7 @@ The production page (not a duplicate of the template) lives at:
 - [src/components/marketing/DonateHero.tsx](../../src/components/marketing/DonateHero.tsx)
 - [src/components/marketing/donate/](../../src/components/marketing/donate/)
 
-The template adds **`donateConfig`** for portability and slightly **tighter default gutters** in `landingLayout.ts` so it behaves well standalone; you can paste the main app’s `landingGutterX` into the template copy if you want pixel-perfect alignment with the rest of the site.
+`landingLayout.ts` matches the main app. `donateConfig` is limited to **metadata** for the pack example; all layout and form copy is in the components.
 
 ## Editor diagnostics
 

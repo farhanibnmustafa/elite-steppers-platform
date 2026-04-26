@@ -30,9 +30,9 @@ export const termsPageConfig = {
    */
   primaryProgram: "our programs",
   metadata: {
-    title: "Terms & Conditions | Your Site",
+    title: "Terms & Conditions | Elite Level Steppers",
     description:
-      "Terms and Conditions for using this website, including user submissions, communications, and related services.",
+      "Terms and Conditions for using the Elite Level Steppers Hall of Fame website, including nominations, communications, and related services.",
   },
 } as const;
 

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { donatePageConfig } from "./donateConfig";
 import { landingInnerMax } from "./landingLayout";
 
+/** Filled paper plane / send (slight tilt, reads as in reference). */
 function PaperPlaneIcon() {
   return (
     <svg
@@ -20,12 +20,12 @@ function PaperPlaneIcon() {
 
 const inner = `${landingInnerMax} text-center`;
 
-export function DonateNewsletter({
+/** When true, top padding is omitted so spacing above the headline is controlled by the element above (e.g. a divider with symmetric margin). */
+export function LandingNewsletter({
   tightToDivider = false,
 }: {
   tightToDivider?: boolean;
 } = {}) {
-  const cfg = donatePageConfig.newsletter;
   const [submitted, setSubmitted] = useState(false);
 
   const headingBlockPadding = tightToDivider
@@ -35,17 +35,18 @@ export function DonateNewsletter({
   return (
     <section
       className="relative z-20 w-full min-w-0"
-      aria-labelledby="donate-newsletter-heading"
+      aria-labelledby="newsletter-heading"
     >
       <div className={`${inner} ${headingBlockPadding}`}>
         <h2
-          id="donate-newsletter-heading"
+          id="newsletter-heading"
           className="text-balance px-1 text-[clamp(1.15rem,4.2vw,1.9rem)] font-semibold leading-tight text-white"
         >
-          {cfg.heading}
+          Legends Move Fast. Don&apos;t Miss a Beat.
         </h2>
         <p className="mx-auto mt-1.5 max-w-[min(100%,52rem)] px-2 text-center text-pretty text-[0.7rem] font-medium leading-snug text-white/88 min-[400px]:text-xs sm:mt-2 sm:px-1 sm:text-sm md:text-[0.9375rem] md:leading-snug">
-          {cfg.subtext}
+          Subscribe now and be the first to hear about inductees, events, and
+          exclusive merch drops.
         </p>
       </div>
 
@@ -58,23 +59,23 @@ export function DonateNewsletter({
           }}
         >
           <div className="relative -mb-6 w-full min-w-0 sm:-mb-7 md:-mb-9 lg:-mb-10">
-            <label className="sr-only" htmlFor="donate-newsletter-email">
+            <label className="sr-only" htmlFor="hof-newsletter-email">
               Email address
             </label>
             <input
-              id="donate-newsletter-email"
+              id="hof-newsletter-email"
               name="email"
               type="email"
               required
               autoComplete="email"
               inputMode="email"
-              placeholder={cfg.emailPlaceholder}
+              placeholder="Enter your email"
               className="h-11 w-full min-w-0 rounded-full border border-white/22 bg-white/[0.04] py-2 pl-3 pr-12 text-center text-sm text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)] outline-none ring-0 backdrop-blur-[1px] placeholder:text-center placeholder:text-white/45 focus:border-white/40 focus:ring-2 focus:ring-gold/30 sm:pl-4 sm:pr-[3.25rem] sm:text-[0.9375rem] md:pr-14"
             />
             <button
               type="submit"
               className="shadow-gold-icon absolute right-1.5 top-1/2 flex h-9 w-9 min-h-9 min-w-9 -translate-y-1/2 items-center justify-center rounded-full bg-gold text-background transition hover:brightness-105 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:right-2 md:h-9 md:w-9"
-              aria-label={cfg.submitAriaLabel}
+              aria-label="Subscribe to newsletter"
             >
               <PaperPlaneIcon />
             </button>
@@ -85,7 +86,7 @@ export function DonateNewsletter({
             className="relative z-20 mt-1.5 px-2 pb-2 text-xs text-gold/90 sm:mt-2 sm:text-sm"
             role="status"
           >
-            {cfg.successMessage}
+            Thanks — you&apos;re on the list.
           </p>
         ) : null}
       </div>

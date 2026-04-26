@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { donatePageConfig } from "./donateConfig";
 import { DonateGiftForm } from "./DonateGiftForm";
 
 const panel =
   "rounded-xl border border-white/12 bg-[#0e0e13] px-4 py-6 sm:px-8 sm:py-9 md:px-10 md:py-10";
 
+/** Impact column: matches donate card height; no outer border per layout spec. */
 const panelImpact =
   "flex h-full min-h-0 w-full flex-col rounded-xl border-0 bg-[#171723] px-4 py-6 sm:px-8 sm:py-9 md:px-10 md:py-10";
 
@@ -90,11 +90,32 @@ function ImpactIconReceipt() {
   );
 }
 
-const noteIcons = [ImpactIconLock, ImpactIconBank, ImpactIconReceipt] as const;
+const impactTiers = [
+  { amount: "$25", text: "Supplies for youth workshops and clinics." },
+  { amount: "$50", text: "Digitizes and preserves Hall of Fame archives." },
+  { amount: "$100", text: "Funds travel stipends for student performers." },
+  { amount: "$250+", text: "Sponsors scholarships and community programs." },
+] as const;
+
+const impactNotes = [
+  {
+    icon: ImpactIconLock,
+    label: "Secure:",
+    body: "All payments are processed via encrypted gateways.",
+  },
+  {
+    icon: ImpactIconBank,
+    label: "Transparent:",
+    body: "Annual impact report shared with donors.",
+  },
+  {
+    icon: ImpactIconReceipt,
+    label: "Tax Info:",
+    body: "Add your nonprofit/tax-deductible statement here.",
+  },
+] as const;
 
 export function DonatePageSections() {
-  const { impact, otherWays } = donatePageConfig;
-
   return (
     <div className="mt-10 space-y-8 font-sans sm:mt-12">
       <div className="grid gap-6 md:grid-cols-2 md:items-start md:gap-6 lg:grid-cols-12 lg:items-stretch lg:gap-8">
@@ -111,10 +132,10 @@ export function DonatePageSections() {
               id="donate-impact-heading"
               className="text-center text-pretty text-[clamp(1.35rem,4vw,1.9375rem)] font-bold tracking-tight text-white"
             >
-              {impact.heading}
+              Your Impact
             </h2>
             <ul className="mt-6 flex flex-1 flex-col gap-3">
-              {impact.tiers.map(({ amount, text }) => (
+              {impactTiers.map(({ amount, text }) => (
                 <li key={amount} className={impactCard}>
                   <p className="text-center text-pretty text-sm font-semibold leading-snug sm:text-[0.9375rem]">
                     <span className="text-gold">{amount}</span>{" "}
@@ -122,45 +143,55 @@ export function DonatePageSections() {
                   </p>
                 </li>
               ))}
-              {impact.notes.map(({ label, body }, i) => {
-                const Icon = noteIcons[i] ?? ImpactIconLock;
-                return (
-                  <li key={label} className={impactCard}>
-                    <div className="flex items-start gap-3">
-                      <Icon />
-                      <p className="min-w-0 flex-1 text-pretty text-sm leading-snug sm:text-[0.9375rem]">
-                        <span className="font-semibold text-gold">{label}</span>{" "}
-                        <span className="text-white">{body}</span>
-                      </p>
-                    </div>
-                  </li>
-                );
-              })}
+              {impactNotes.map(({ icon: Icon, label, body }) => (
+                <li key={label} className={impactCard}>
+                  <div className="flex items-start gap-3">
+                    <Icon />
+                    <p className="min-w-0 flex-1 text-pretty text-sm leading-snug sm:text-[0.9375rem]">
+                      <span className="font-semibold text-gold">{label}</span>{" "}
+                      <span className="text-white">{body}</span>
+                    </p>
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
         </aside>
       </div>
 
-      <section className={panel} aria-labelledby="donate-other-ways-heading">
+      <section
+        className={panel}
+        aria-labelledby="donate-other-ways-heading"
+      >
         <h2
           id="donate-other-ways-heading"
           className="text-pretty text-[clamp(1.35rem,4vw,1.9375rem)] font-bold tracking-tight text-white"
         >
-          {otherWays.heading}
+          Other Ways to Give
         </h2>
         <p className="mt-2 max-w-2xl text-pretty text-sm leading-relaxed text-white/75 sm:text-[0.9375rem]">
-          {otherWays.subtext}
+          Partner with us through sponsorships, planned gifts, or volunteering
+          at events and programs.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
-          {otherWays.links.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className="inline-flex min-h-[2.75rem] flex-1 items-center justify-center rounded-xl border border-white/35 bg-[#1b1f2a] px-5 text-center text-sm font-medium text-white transition hover:border-white/50 hover:bg-[#232838] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/55 sm:min-w-[10rem] sm:flex-none sm:px-7"
-            >
-              {label}
-            </Link>
-          ))}
+          <Link
+            href="/about"
+            className="inline-flex min-h-[2.75rem] flex-1 items-center justify-center rounded-xl border border-white/35 bg-[#1b1f2a] px-5 text-center text-sm font-medium text-white transition hover:border-white/50 hover:bg-[#232838] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/55 sm:min-w-[10rem] sm:flex-none sm:px-7"
+          >
+            Corporate partnerships
+          </Link>
+          <Link
+            href="/membership"
+            className="inline-flex min-h-[2.75rem] flex-1 items-center justify-center rounded-xl border border-white/35 bg-[#1b1f2a] px-5 text-center text-sm font-medium text-white transition hover:border-white/50 hover:bg-[#232838] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/55 sm:min-w-[10rem] sm:flex-none sm:px-7"
+          >
+            Legacy &amp; planned giving
+          </Link>
+          <Link
+            href="/events"
+            className="inline-flex min-h-[2.75rem] flex-1 items-center justify-center rounded-xl border border-white/35 bg-[#1b1f2a] px-5 text-center text-sm font-medium text-white transition hover:border-white/50 hover:bg-[#232838] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/55 sm:min-w-[10rem] sm:flex-none sm:px-7"
+          >
+            Volunteer at events
+          </Link>
         </div>
       </section>
     </div>

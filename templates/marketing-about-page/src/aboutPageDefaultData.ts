@@ -1,10 +1,13 @@
 import type { AboutPageData } from "./AboutPageView";
 
-/** Elite Level Steppers Hall of Fame — same content as `src/components/marketing/aboutPageDefaultData.ts` in the main app. */
+/** Elite Level Steppers Hall of Fame — default content for `/about`. */
 export const aboutPageDefaultData: AboutPageData = {
-  kicker: "Honoring the culture and the people who move it forward.",
-  h1: "About Elite Level Steppers Hall of Fame",
-  sub: "A home for the stories, voices, and legacy of stepping at its highest level—built with the community, for the community.",
+  hero: {
+    badge: "About",
+    title: "About Elite Level Steppers Hall of Fame",
+    intro:
+      "Honoring the culture and the people who move it forward. A home for the stories, voices, and legacy of stepping at its highest level—built with the community, for the community.",
+  },
   heroImage: {
     src: "/images/about-hero-cinematic.png",
     alt: "A performer in formal black suit on stage in warm spotlight, with deep red theatre curtains, representing passion and leadership in stepping culture.",
@@ -98,6 +101,35 @@ export const aboutPageDefaultData: AboutPageData = {
   },
   leadershipNote:
     "Leadership, partnerships, and media inquiries: details will be published when finalized; use the contact path provided on the site and in your agreements for official questions.",
+  faq: {
+    title: "Frequently asked questions",
+    items: [
+      {
+        key: "what",
+        question: "What is the Elite Level Steppers Hall of Fame?",
+        answer:
+          "It is a public recognition of excellence in stepping—honoring performers, organizers, educators, and culture-bearers whose impact is lasting. The site brings together history, current honorees, and ways the community can participate through nominations, events, and more.",
+      },
+      {
+        key: "nominate",
+        question: "How do nominations work?",
+        answer:
+          "The community can submit names for consideration through the Nominations experience on this site, using the form and any published criteria. Final selection processes and timing may be announced on the Nominations and Events pages as the organization updates its calendar.",
+      },
+      {
+        key: "fees",
+        question: "Is there a cost to be listed or to nominate someone?",
+        answer:
+          "Public-facing details about fees, if any, will be made clear in official program materials. For the most current information, see the Nominations and Membership areas or contact the organization through the path provided for official inquiries.",
+      },
+      {
+        key: "involved",
+        question: "How can I get involved beyond visiting the site?",
+        answer:
+          "You can attend events, explore membership, shop official merch, donate to help sustain the work, and join the newsletter for updates on inductees and programs. The About page and footer link to the main paths to participate.",
+      },
+    ],
+  },
   cta: {
     title: "Get involved",
     sub: "Take the next step: nominate, explore honorees, or stay in the loop.",

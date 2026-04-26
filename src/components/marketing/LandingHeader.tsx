@@ -12,10 +12,11 @@ import {
 
 /** Top row: text-only, uppercase, wider spacing. */
 const primaryLinks: { href: string; label: string }[] = [
+  { href: "/search", label: "SEARCH" },
   { href: "/about", label: "ABOUT US" },
   { href: "/donate", label: "DONATE" },
   { href: "/membership", label: "BECOME MEMBER" },
-  { href: "/search", label: "SEARCH" },
+  { href: "/contact", label: "CONTACT US" },
 ];
 
 /** Bottom row: pill buttons; active item uses solid gold. */
@@ -34,6 +35,9 @@ function primaryIsActive(pathname: string, href: string) {
   }
   if (href === "/membership") {
     return pathname === "/membership" || pathname.startsWith("/membership/");
+  }
+  if (href === "/contact") {
+    return pathname === "/contact" || pathname.startsWith("/contact/");
   }
   return pathname === href;
 }
@@ -267,7 +271,7 @@ export function LandingHeader({
   return (
     <header
       className={`relative z-[200] bg-black isolate [touch-action:manipulation] ${
-        heroFlush ? "border-b-0" : "border-b border-white/10"
+        heroFlush ? "border-b-0" : "border-b border-white/20"
       }`}
     >
       <div

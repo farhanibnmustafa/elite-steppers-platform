@@ -1,5 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AboutHero } from "./AboutHero";
+import { ContentMain } from "./ContentMain";
+import { LandingNewsletter } from "./LandingNewsletter";
+import { LandingNewsletterFooter } from "./LandingNewsletterFooter";
+import { HERO_GOLD, HERO_GOLD_RGB } from "./WatermarkHero";
 
 export type AboutWhatWeDoSegment =
   | string
@@ -23,16 +28,23 @@ export type AboutCta = {
   label: string;
 };
 
+export type AboutFaqItem = {
+  key: string;
+  question: string;
+  answer: string;
+};
+
 export type AboutPageData = {
-  kicker: string;
-  h1: string;
-  sub: string;
+  /** Full-bleed watermark hero (same system as the contact page). */
+  hero: { badge: string; title: string; intro: string };
   heroImage: { src: string; alt: string };
   lead: [string, string];
   mission: { title: string; paragraphs: [string, string] };
   whatWeDo: { title: string; items: AboutWhatWeDoItem[] };
   values: { title: string; pillars: AboutValuePillar[] };
   leadershipNote: string;
+  /** Accordion-style FAQ; native `<details>` for accessibility without client JS. */
+  faq: { title: string; items: AboutFaqItem[] };
   cta: { title: string; sub: string; actions: AboutCta[] };
 };
 
@@ -64,41 +76,39 @@ function WhatWeDoLine({ item }: { item: AboutWhatWeDoItem }) {
   );
 }
 
+const faqSummaryClass =
+  "flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3.5 text-left text-sm font-semibold text-white/95 [overflow-wrap:anywhere] transition hover:bg-gold/5 sm:px-5 sm:py-4 sm:text-base [&::-webkit-details-marker]:hidden";
+
 export function AboutPageView({ data }: { data: AboutPageData }) {
   return (
-    <div className="mx-auto w-full min-w-0 max-w-4xl font-sans">
-      <header className="border-b border-gold/30 pb-5 sm:pb-7">
-        <p className="text-sm font-medium leading-snug text-gold/95 [overflow-wrap:anywhere]">
-          {data.kicker}
-        </p>
-        <h1 className="mt-2 text-balance text-[clamp(1.375rem,1.1rem+1.1vw,2.25rem)] font-semibold leading-[1.15] text-white [overflow-wrap:anywhere] min-[400px]:leading-tight sm:mt-2.5 min-[500px]:text-[clamp(1.5rem,1rem+1.4vw,2.5rem)]">
-          {data.h1}
-        </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/65 [overflow-wrap:anywhere] sm:mt-3 sm:text-base sm:leading-normal">
-          {data.sub}
-        </p>
-      </header>
+    <>
+      <AboutHero data={data} />
+      <ContentMain>
+        <div className="mx-auto w-full min-w-0 max-w-4xl font-sans">
+          <div className="grid w-full min-w-0 grid-cols-1 gap-6 min-[500px]:gap-7 md:grid-cols-2 md:items-start md:gap-6 lg:gap-8">
+            <div
+              className="relative w-full min-w-0 self-start overflow-hidden rounded-lg border bg-background max-md:min-h-[12rem] max-md:max-h-[min(52svh,22rem)] md:aspect-[4/3] md:max-h-none"
+              style={{
+                borderColor: HERO_GOLD,
+                boxShadow: `0 0 0 1px rgba(${HERO_GOLD_RGB},0.24) inset`,
+              }}
+            >
+              <Image
+                src={data.heroImage.src}
+                alt={data.heroImage.alt}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover object-center"
+                priority
+              />
+            </div>
+            <div className="min-w-0 space-y-3 sm:space-y-3.5">
+              <p className={body}>{data.lead[0]}</p>
+              <p className={body}>{data.lead[1]}</p>
+            </div>
+          </div>
 
-      <div className="mt-7 grid w-full min-w-0 grid-cols-1 gap-6 min-[500px]:gap-7 md:mt-8 md:grid-cols-2 md:items-start md:gap-6 lg:gap-8">
-        <div
-          className="relative w-full min-w-0 self-start overflow-hidden rounded-lg border border-gold/20 bg-background max-md:min-h-[12rem] max-md:max-h-[min(52svh,22rem)] md:aspect-[4/3] md:max-h-none"
-        >
-          <Image
-            src={data.heroImage.src}
-            alt={data.heroImage.alt}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover object-center"
-            priority
-          />
-        </div>
-        <div className="min-w-0 space-y-3 sm:space-y-3.5">
-          <p className={body}>{data.lead[0]}</p>
-          <p className={body}>{data.lead[1]}</p>
-        </div>
-      </div>
-
-      <div className="mt-9 space-y-8 sm:mt-10 sm:space-y-9 md:mt-12 md:space-y-10">
+          <div className="mt-9 space-y-8 sm:mt-10 sm:space-y-9 md:mt-12 md:space-y-10">
         <section
           className="border-t border-gold/25 pt-6 sm:pt-7"
           aria-labelledby="about-mission"
@@ -150,6 +160,55 @@ export function AboutPageView({ data }: { data: AboutPageData }) {
         </p>
 
         <section
+          className="border-t border-gold/25 pt-6 sm:pt-7"
+          aria-labelledby="about-faq"
+        >
+          <h2 id="about-faq" className={h2}>
+            {data.faq.title}
+          </h2>
+          <div
+            className="mt-4 overflow-hidden rounded-lg border border-gold/20 sm:mt-5"
+            role="region"
+            aria-label={data.faq.title}
+          >
+            {data.faq.items.map((item) => (
+              <details
+                key={item.key}
+                className="group border-b border-gold/15 last:border-b-0 open:bg-gold/[0.04]"
+              >
+                <summary className={faqSummaryClass}>
+                  <span>{item.question}</span>
+                  <span
+                    className="shrink-0 text-gold/90 transition group-open:rotate-180"
+                    aria-hidden
+                  >
+                    <svg
+                      className="h-5 w-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </span>
+                </summary>
+                <div
+                  className="border-t border-gold/15 bg-black/25 px-4 pb-4 sm:px-5 sm:pb-5"
+                  id={`about-faq-${item.key}`}
+                >
+                  <p className={`${body} m-0 pt-2 text-sm sm:text-base`}>
+                    {item.answer}
+                  </p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section
           className="border-t border-gold/25 bg-nomination-card px-4 py-5 text-center sm:rounded-lg sm:px-5 sm:py-6"
           aria-labelledby="about-cta"
         >
@@ -170,7 +229,16 @@ export function AboutPageView({ data }: { data: AboutPageData }) {
             ))}
           </div>
         </section>
-      </div>
-    </div>
+          </div>
+        </div>
+      </ContentMain>
+      <div
+        className="my-10 h-0.5 w-full min-w-0 bg-gold/85 sm:my-12 md:my-14"
+        role="separator"
+        aria-hidden
+      />
+      <LandingNewsletter tightToDivider />
+      <LandingNewsletterFooter />
+    </>
   );
 }

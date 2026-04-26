@@ -1,0 +1,29 @@
+/**
+ * Optional: merge into your global stylesheet (after @import "tailwindcss") if the host
+ * app does not already define `gold`, `background`, and nomination form @theme colors.
+ */
+:root {
+  --background: #0a0a0c;
+  --gold: #d4af37;
+  --gold-muted: #b4922a;
+  --nomination-card: #171723;
+  --nomination-field: #1e1e2a;
+  --nomination-border: #7f7f86;
+  --nomination-control: #343747;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-gold: var(--gold);
+  --color-gold-muted: var(--gold-muted);
+  --color-nomination-card: var(--nomination-card);
+  --color-nomination-field: var(--nomination-field);
+  --color-nomination-border: var(--nomination-border);
+  --color-nomination-control: var(--nomination-control);
+}
+
+@layer components {
+  .shadow-gold-sm {
+    box-shadow: 0 2px 12px color-mix(in srgb, var(--gold) 28%, transparent);
+  }
+}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ContentMain } from "./ContentMain";
 import {
   type TermsBlock,
   type TermsSection,
@@ -57,58 +58,59 @@ function TermsSectionView({ section }: { section: TermsSection }) {
 }
 
 /**
- * Renders the Terms article only (no outer `<main>`). Wrap with your
- * app layout, e.g. `ContentMain` or your marketing shell, on the page route.
+ * Full terms view including `ContentMain` — matches `app/(marketing)/terms/page.tsx` content.
  */
 export function TermsPageView() {
   return (
-    <article
-      className="mx-auto w-full min-w-0 max-w-full font-sans sm:max-w-3xl"
-      lang="en"
-    >
-      <header className="border-b border-gold/30 pb-5 sm:pb-8">
-        <h1 className="text-balance text-xl font-semibold leading-tight text-white [overflow-wrap:anywhere] min-[400px]:text-2xl sm:text-3xl">
-          Terms &amp; Conditions
-        </h1>
-        <p className="mt-2 text-sm leading-snug text-white/60">
-          Last updated: {TERMS_LAST_UPDATED}
-        </p>
-        <p className="mt-3 max-w-2xl border-l-2 border-gold/40 pl-3 text-sm leading-relaxed text-white/60 sm:mt-4 sm:pl-4 sm:text-justify">
-          This page is provided for your convenience. It does not constitute
-          legal advice. Have qualified counsel review these terms before
-          relying on them for commercial or legal decisions.
-        </p>
-      </header>
-
-      <nav
-        className="mt-6 w-full min-w-0 rounded-lg border border-gold/20 bg-white/[0.03] p-3.5 sm:mt-8 sm:p-5"
-        aria-labelledby="terms-toc-title"
+    <ContentMain>
+      <article
+        className="mx-auto w-full min-w-0 max-w-full sm:max-w-3xl font-sans"
+        lang="en"
       >
-        <p
-          id="terms-toc-title"
-          className="text-sm font-semibold tracking-wide text-gold"
-        >
-          On this page
-        </p>
-        <ol className="mt-3.5 list-outside list-decimal space-y-1.5 pl-5 text-sm leading-normal text-white/80 marker:font-medium marker:text-gold sm:mt-4 sm:space-y-2 sm:pl-6 sm:text-base sm:leading-snug">
-          {termsSections.map((section) => (
-            <li key={section.id} className="min-w-0 pl-0.5">
-              <Link
-                href={`#${section.id}`}
-                className="inline-block w-full min-w-0 max-w-full rounded-sm py-1 text-pretty text-white/90 no-underline underline-offset-2 transition [overflow-wrap:anywhere] hover:underline hover:decoration-gold/50 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold/70 sm:py-1"
-              >
-                {section.title}
-              </Link>
-            </li>
-          ))}
-        </ol>
-      </nav>
+        <header className="border-b border-gold/30 pb-5 sm:pb-8">
+          <h1 className="text-balance text-xl font-semibold leading-tight text-white [overflow-wrap:anywhere] min-[400px]:text-2xl sm:text-3xl">
+            Terms &amp; Conditions
+          </h1>
+          <p className="mt-2 text-sm leading-snug text-white/60">
+            Last updated: {TERMS_LAST_UPDATED}
+          </p>
+          <p className="mt-3 max-w-2xl border-l-2 border-gold/40 pl-3 text-sm leading-relaxed text-white/60 sm:mt-4 sm:pl-4 sm:text-justify">
+            This page is provided for your convenience. It does not constitute legal advice. Have
+            qualified counsel review these terms before relying on them for commercial or legal
+            decisions.
+          </p>
+        </header>
 
-      <div className="mt-6 space-y-7 sm:mt-8 sm:space-y-9 md:mt-10 md:space-y-10">
-        {termsSections.map((section) => (
-          <TermsSectionView key={section.id} section={section} />
-        ))}
-      </div>
-    </article>
+        <nav
+          className="mt-6 w-full min-w-0 rounded-lg border border-gold/20 bg-white/[0.03] p-3.5 sm:mt-8 sm:p-5"
+          aria-labelledby="terms-toc-title"
+        >
+          <p
+            id="terms-toc-title"
+            className="text-sm font-semibold tracking-wide text-gold"
+          >
+            On this page
+          </p>
+          <ol className="mt-3.5 list-outside list-decimal space-y-1.5 pl-5 text-sm leading-normal text-white/80 marker:font-medium marker:text-gold sm:mt-4 sm:space-y-2 sm:pl-6 sm:text-base sm:leading-snug">
+            {termsSections.map((section) => (
+              <li key={section.id} className="min-w-0 pl-0.5">
+                <Link
+                  href={`#${section.id}`}
+                  className="inline-block w-full min-w-0 max-w-full rounded-sm py-1 text-pretty text-white/90 no-underline underline-offset-2 transition [overflow-wrap:anywhere] hover:underline hover:decoration-gold/50 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold/70 sm:py-1"
+                >
+                  {section.title}
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </nav>
+
+        <div className="mt-6 space-y-7 sm:mt-8 sm:space-y-9 md:mt-10 md:space-y-10">
+          {termsSections.map((section) => (
+            <TermsSectionView key={section.id} section={section} />
+          ))}
+        </div>
+      </article>
+    </ContentMain>
   );
 }

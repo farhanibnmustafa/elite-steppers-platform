@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { donatePageConfig } from "./donateConfig";
 
 const panel =
   "min-w-0 w-full rounded-xl border border-white/[0.05] bg-[#171723] px-4 py-6 font-sans sm:px-10 sm:py-9 md:px-12 md:py-10";
@@ -11,8 +10,9 @@ const fieldClass =
 
 const formLabelTracking = "tracking-[0.06em]";
 
-const amounts = donatePageConfig.giftForm.amountPresets;
+const amounts = [25, 50, 100, 250, 500] as const;
 
+/** Middle pair in the preset row ($100 & $250): flat fill, no border when idle (tones sit above #171723 panel). */
 function isMiddlePreset(n: number) {
   return n === 100 || n === 250;
 }
@@ -44,7 +44,6 @@ function FieldLabel({
 }
 
 export function DonateGiftForm({ className = "" }: { className?: string }) {
-  const cfg = donatePageConfig.giftForm;
   const [frequency, setFrequency] = useState<"once" | "monthly">("once");
   const [preset, setPreset] = useState<number | "other">(50);
   const [customAmount, setCustomAmount] = useState("");
@@ -67,10 +66,11 @@ export function DonateGiftForm({ className = "" }: { className?: string }) {
         id="donate-gift-heading"
         className="text-pretty text-[clamp(1.35rem,4.2vw,1.9375rem)] font-bold tracking-tight text-white"
       >
-        {cfg.heading}
+        Choose Your Gift
       </h2>
       <p className="mt-2 max-w-xl text-pretty text-sm leading-relaxed text-white/75 sm:text-[0.9375rem]">
-        {cfg.subtext}
+        Select an amount and how often you&apos;d like to give. Every gift
+        fuels programs, archives, and celebrations that keep stepping alive.
       </p>
 
       <div className="mt-6 space-y-6">
@@ -79,7 +79,7 @@ export function DonateGiftForm({ className = "" }: { className?: string }) {
             className="inline-flex min-h-[3rem] shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[#14151c] px-3 text-sm font-medium text-white sm:px-3.5"
             id="donation-type-label"
           >
-            {cfg.donationTypeLabel}
+            Donation Type
           </span>
           <div
             className="flex min-h-[3rem] min-w-0 flex-1 rounded-lg border border-white/10 bg-[#0e0e13] p-0.5"
@@ -116,7 +116,7 @@ export function DonateGiftForm({ className = "" }: { className?: string }) {
           <span
             className={`text-xs font-semibold uppercase ${formLabelTracking} text-white/55`}
           >
-            {cfg.amountLabel}
+            Amount
           </span>
           <div className="mt-2 flex flex-wrap gap-2">
             {amounts.map((n, i) => {
@@ -157,7 +157,7 @@ export function DonateGiftForm({ className = "" }: { className?: string }) {
 
           <div className="mt-4">
             <FieldLabel htmlFor="donate-custom-amount" required={false}>
-              {cfg.otherAmountLabel}
+              Other amount (USD)
             </FieldLabel>
             <input
               id="donate-custom-amount"
@@ -165,7 +165,7 @@ export function DonateGiftForm({ className = "" }: { className?: string }) {
               min={1}
               step={1}
               inputMode="decimal"
-              placeholder={cfg.otherAmountPlaceholder}
+              placeholder="Enter custom amount"
               value={customAmount}
               onChange={(e) => {
                 setCustomAmount(e.target.value);
@@ -186,7 +186,7 @@ export function DonateGiftForm({ className = "" }: { className?: string }) {
         >
           <div>
             <FieldLabel htmlFor="donate-full-name" required>
-              {cfg.fullNameLabel}
+              Full name
             </FieldLabel>
             <input
               id="donate-full-name"
@@ -201,7 +201,7 @@ export function DonateGiftForm({ className = "" }: { className?: string }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <FieldLabel htmlFor="donate-email" required>
-                {cfg.emailLabel}
+                Email
               </FieldLabel>
               <input
                 id="donate-email"
@@ -215,7 +215,7 @@ export function DonateGiftForm({ className = "" }: { className?: string }) {
             </div>
             <div>
               <FieldLabel htmlFor="donate-phone" required>
-                {cfg.phoneLabel}
+                Phone
               </FieldLabel>
               <input
                 id="donate-phone"
@@ -233,26 +233,28 @@ export function DonateGiftForm({ className = "" }: { className?: string }) {
             className="rounded-xl border border-white/10 bg-[#14151c] px-4 py-3.5 text-[0.8125rem] italic leading-relaxed text-white/65"
             role="note"
           >
-            {cfg.paymentNote}
+            Payment Methods: Stripe / PayPal / Apple Pay (add your gateway
+            here). Recurring donations will bill monthly.
           </div>
 
           <button
             type="submit"
             className="mt-2 inline-flex min-h-[3rem] w-full touch-manipulation items-center justify-center rounded-xl bg-gold px-7 text-center text-sm font-bold text-background shadow-gold-sm transition hover:brightness-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:text-[0.9375rem]"
           >
-            {cfg.submitLabel}
+            Donate now
           </button>
 
           <p className="text-center text-[0.6875rem] leading-relaxed text-white/45">
-            {cfg.legalNote}
+            By donating you agree to our terms. Contact us if you need a receipt
+            or have questions about your gift.
           </p>
         </form>
 
         {submitted ? (
           <p className="text-sm text-gold/95" role="status">
-            {cfg.thankYouPrefix}{" "}
-            {frequency === "monthly" ? cfg.monthlyWord : ""}
-            {displayAmount === "—" ? cfg.customAmountWord : displayAmount}.
+            Thank you — we&apos;ll connect a secure checkout here. Your intended
+            gift: {frequency === "monthly" ? "monthly " : ""}
+            {displayAmount === "—" ? "custom amount" : displayAmount}.
           </p>
         ) : null}
       </div>

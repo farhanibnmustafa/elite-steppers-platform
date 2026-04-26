@@ -1,14 +1,12 @@
 /**
- * Terms of Use — data-driven from termsConfig. Legal review is required
- * before production; counsel should complete governing-law placeholders
- * and industry-specific obligations.
+ * Terms of Use copy for the Elite Level Steppers Hall of Fame public website.
+ * Legal review is required before production reliance; counsel should complete
+ * jurisdiction, contact details, and any industry-specific obligations.
  */
 
-import { termsPageConfig } from "./termsConfig";
+export const TERMS_LAST_UPDATED = "April 24, 2026";
 
-const C = termsPageConfig;
-
-export const TERMS_LAST_UPDATED = C.lastUpdated;
+export const TERMS_CONTACT_PLACEHOLDER = "[Insert contact email]";
 
 export type TermsBlock =
   | { type: "p"; text: string }
@@ -28,11 +26,11 @@ export const termsSections: TermsSection[] = [
     blocks: [
       {
         type: "p",
-        text: `These Terms and Conditions ("Terms") govern your access to and use of the website and online services of ${C.legalEntityName} ("we," "us," or "our"), including any content, features, or programs made available in connection with ${C.servicesScope} (collectively, the "Services").`,
+        text: "These Terms and Conditions (\"Terms\") govern your access to and use of the website and online services of Elite Level Steppers Hall of Fame (\"we,\" \"us,\" or \"our\"), including any content, features, or programs made available in connection with the Hall of Fame, nominations, events, membership information, and related offerings (collectively, the \"Services\").",
       },
       {
         type: "p",
-        text: 'By accessing or using the Services, you agree to be bound by these Terms. If you do not agree, you must not use the Services. We may change these Terms from time to time; the "Last updated" date at the top of this page reflects the latest version.',
+        text: "By accessing or using the Services, you agree to be bound by these Terms. If you do not agree, you must not use the Services. We may change these Terms from time to time; the \"Last updated\" date at the top of this page reflects the latest version.",
       },
       {
         type: "p",
@@ -46,7 +44,7 @@ export const termsSections: TermsSection[] = [
     blocks: [
       {
         type: "p",
-        text: `The Services are provided to share information about ${C.serviceInformationFocus}, to facilitate ${C.serviceFacilitate}, and to support related programs, communications, and transactions we may offer (such as donations, event registration, merchandise, or membership information), as described on the site from time to time.`,
+        text: "The Services are provided to share information about the Elite Level Steppers Hall of Fame, to facilitate nominations, and to support related programs, communications, and transactions we may offer (such as donations, event registration, merchandise, or membership information), as described on the site from time to time.",
       },
       {
         type: "p",
@@ -81,15 +79,15 @@ export const termsSections: TermsSection[] = [
     blocks: [
       {
         type: "p",
-        text: 'If you submit a nomination, form response, or other materials through the Services ("Submissions"), you represent and warrant that the information is accurate to the best of your knowledge, that you have the right to provide the content, and that your Submission does not infringe the rights of any third party.',
+        text: "If you submit a nomination, form response, or other materials through the Services (\"Submissions\"), you represent and warrant that the information is accurate to the best of your knowledge, that you have the right to provide the content, and that your Submission does not infringe the rights of any third party.",
       },
       {
         type: "p",
-        text: `Submitting a nomination or other information does not guarantee selection, induction, or any particular outcome. We may use Submissions to evaluate programs, contact you for clarification, and operate ${C.primaryProgram} and related activities, in our sole discretion.`,
+        text: "Submitting a nomination or other information does not guarantee selection, induction, or any particular outcome. We may use Submissions to evaluate programs, contact you for clarification, and operate the Hall of Fame and related activities, in our sole discretion.",
       },
       {
         type: "p",
-        text: `To the extent allowed by law, you grant us a non-exclusive, worldwide, royalty-free license to use, reproduce, modify, display, and distribute your Submissions in connection with the Services and ${C.primaryProgram}, including for promotional, archival, and operational purposes, unless a separate written agreement with you provides otherwise. You retain any ownership rights you had in your Submissions, subject to the rights you grant to us here.`,
+        text: "To the extent allowed by law, you grant us a non-exclusive, worldwide, royalty-free license to use, reproduce, modify, display, and distribute your Submissions in connection with the Services and the Hall of Fame, including for promotional, archival, and operational purposes, unless a separate written agreement with you provides otherwise. You retain any ownership rights you had in your Submissions, subject to the rights you grant to us here.",
       },
       {
         type: "p",
@@ -155,7 +153,7 @@ export const termsSections: TermsSection[] = [
     blocks: [
       {
         type: "p",
-        text: 'THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT, TO THE FULLEST EXTENT PERMITTED BY LAW. WE DO NOT WARRANT THAT THE SERVICES WILL BE UNINTERRUPTED, SECURE, OR ERROR-FREE, OR THAT DEFECTS WILL BE CORRECTED.',
+        text: "THE SERVICES ARE PROVIDED \"AS IS\" AND \"AS AVAILABLE\" WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT, TO THE FULLEST EXTENT PERMITTED BY LAW. WE DO NOT WARRANT THAT THE SERVICES WILL BE UNINTERRUPTED, SECURE, OR ERROR-FREE, OR THAT DEFECTS WILL BE CORRECTED.",
       },
       {
         type: "p",
@@ -227,7 +225,7 @@ export const termsSections: TermsSection[] = [
     blocks: [
       {
         type: "p",
-        text: 'We may update these Terms to reflect changes to our Services, the law, or for other reasons. We will post the updated Terms and revise the "Last updated" date. If changes are material, we may provide a more prominent notice (for example, a banner on the site or, where we have your email, an email), where required by law. Your continued use of the Services after the effective date of changes constitutes your acceptance, unless we require a separate action where applicable law so requires.',
+        text: "We may update these Terms to reflect changes to our Services, the law, or for other reasons. We will post the updated Terms and revise the \"Last updated\" date. If changes are material, we may provide a more prominent notice (for example, a banner on the site or, where we have your email, an email), where required by law. Your continued use of the Services after the effective date of changes constitutes your acceptance, unless we require a separate action where applicable law so requires.",
       },
     ],
   },
@@ -239,8 +237,14 @@ export const termsSections: TermsSection[] = [
         type: "p",
         text: "For questions about these Terms, please contact us at:",
       },
-      { type: "p", text: C.displayName },
-      { type: "p", text: `Email: ${C.contactEmail}` },
+      {
+        type: "p",
+        text: "Elite Level Steppers Hall of Fame",
+      },
+      {
+        type: "p",
+        text: `Email: ${TERMS_CONTACT_PLACEHOLDER}`,
+      },
     ],
   },
 ];

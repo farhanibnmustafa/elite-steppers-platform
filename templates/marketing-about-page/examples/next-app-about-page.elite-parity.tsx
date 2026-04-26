@@ -1,10 +1,8 @@
 /**
  * 1:1 with `src/app/(marketing)/about/page.tsx` in elite-steppers-platform.
- * After copying the template, point imports at your app (`@/components/...`) and
- * use `ContentMain` if you have it.
+ * `AboutPageView` includes the watermark hero, then `ContentMain` for the article.
  */
 import type { Metadata } from "next";
-// import { ContentMain } from "@/components/marketing/ContentMain";
 import { aboutPageDefaultData, AboutPageView } from "../src";
 
 export const metadata: Metadata = {
@@ -14,9 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return (
-    <main className="mx-auto w-full min-w-0 max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <AboutPageView data={aboutPageDefaultData} />
-    </main>
-  );
+  return <AboutPageView data={aboutPageDefaultData} />;
 }

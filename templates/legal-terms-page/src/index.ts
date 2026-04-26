@@ -5,4 +5,5 @@ export {
   type TermsBlock,
   type TermsSection,
 } from "./termsContent";
+export { ContentMain } from "./ContentMain";
 export { TermsPageView } from "./TermsPageView";

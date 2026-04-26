@@ -1,9 +1,9 @@
 /**
  * Example App Router page — copy to e.g. `src/app/(marketing)/terms/page.tsx`
- * and change imports to `@/components/legal-terms` (or your path) after moving `src/`.
+ * and change imports to your alias after moving the template `src/`.
+ * `TermsPageView` already wraps the article in `ContentMain` (same as the monorepo route).
  */
 import type { Metadata } from "next";
-// import { ContentMain } from "@/components/marketing/ContentMain";
 import { TermsPageView, termsPageConfig } from "../src";
 
 export const metadata: Metadata = {
@@ -12,17 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
-  return (
-    <main className="mx-auto w-full min-w-0 max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <TermsPageView />
-    </main>
-  );
+  return <TermsPageView />;
 }
-
-// --- Alternative: use your existing wide content wrapper, e.g. in this repo:
-// import { ContentMain } from "@/components/marketing/ContentMain";
-// return (
-//   <ContentMain>
-//     <TermsPageView />
-//   </ContentMain>
-// );
